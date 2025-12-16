@@ -1,2 +1,6 @@
-# VixedgeFintech
-Minimum Viable Product for the Vixedge FinTech Platform.
+#  Vixedge MVP: Click Here to Launch Live Demo
+
+[LAUNCH VIXEDGE MVP](https://sclaerai.github.io/VixedgeFintech/FRONTEND/splsh.html)
+
+ 
+ 
