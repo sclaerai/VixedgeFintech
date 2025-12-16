@@ -6,4 +6,4 @@
 
 [LAUNCH BROKER PANEL](https://sclaerai.github.io/VixedgeFintech/Broker/home.html)
 
-[LAUNCH VIXEDGE ADMIN PANEL](https://sclaerai.github.io/VixedgeFintech/BACKEND/bcksplsh.html)
+[LAUNCH VIXEDGE ADMIN PANEL](https://sclaerai.github.io/VixedgeFintech/BACKEND/bckendsplsh.html)
