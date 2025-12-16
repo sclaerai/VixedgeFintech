@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE Partner NBFC | Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Icons from Phosphor Icons (lightweight & beautiful) -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --mint-light: #E4F2EF;
+      --sage-medium: #7AA893;
+      --deep-teal: #244F48;
+      --gold: #D0B060;
+      --soft-white: #F9FAF8;
+      --light-grey: #D9E0DF;
+      --charcoal: #1F1F1F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--mint-light);
+      color: var(--charcoal);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ===== SIDEBAR WITH ICONS ===== */
+    .sidebar {
+      width: 280px;
+      background: var(--deep-teal);
+      color: white;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      padding: 24px 0;
+      box-shadow: 4px 0 20px rgba(36,79,72,0.2);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    .sidebar .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+      text-align: center;
+      padding: 0 20px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 30px;
+    }
+    .nav-item {
+      padding: 16px 28px;
+      font-size: 15px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .nav-item:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    .nav-item.active {
+      background: var(--gold);
+      color: white;
+      font-weight: 600;
+    }
+    .nav-item i {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 280px;
+      flex: 1;
+    }
+    .header {
+      background: var(--deep-teal);
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      box-shadow: 0 4px 20px rgba(36,79,72,0.2);
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+    }
+    .container {
+      padding: 32px 40px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* === EVERYTHING ELSE 100% UNCHANGED === */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px; }
+    .kpi-card { background: var(--soft-white); border-radius: 16px; padding: 24px; border: 1px solid var(--light-grey); box-shadow: 0 8px 25px rgba(36,79,72,0.08); transition: transform 0.3s; }
+    .kpi-card:hover { transform: translateY(-6px); }
+    .kpi-label { font-size: 14px; color: #666; margin-bottom: 8px; }
+    .kpi-value { font-size: 32px; font-weight: 700; color: var(--deep-teal); }
+    .kpi-gold { color: var(--gold); }
+
+    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 40px; }
+    .chart-card { background: var(--soft-white); border-radius: 16px; padding: 24px; border: 1px solid var(--light-grey); box-shadow: 0 8px 25px rgba(36,79,72,0.08); }
+    .chart-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; color: var(--deep-teal); }
+
+    .tables-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+    .table-card { background: var(--soft-white); border-radius: 16px; overflow: hidden; border: 1px solid var(--light-grey); box-shadow: 0 8px 25px rgba(36,79,72,0.08); }
+    .table-title { background: var(--deep-teal); color: white; padding: 16px 24px; font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 14px 20px; text-align: left; font-size: 14px; }
+    th { background: #f5f7f6; color: var(--charcoal); }
+    tr:nth-child(even) { background: #fbfcfb; }
+    .status-success { color: var(--sage-medium); font-weight: 600; }
+    .status-warning { color: #D97706; font-weight: 600; }
+    .status-critical { color: #C53030; font-weight: 600; }
+
+    @media (max-width: 1024px) {
+      .charts-grid, .tables-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR WITH ICONS -->
+  <div class="sidebar">
+    <div class="logo">VIXEDGE NBFC</div>
+
+    <div class="nav-item active" onclick="window.location.href='dashboard.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-gauge"></i>
+      <span>Dashboard</span>
+    </div>
+   <div class="nav-item" onclick="window.location.href='loan request.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-file-text"></i>
+      <span>Loan Requests</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='loan kitab.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-book-open"></i>
+      <span>Loan Book</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='rpymnt.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-arrow-circle-down"></i>
+      <span>Repayments</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='settlement n disbursement.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-arrows-clockwise"></i>
+      <span>Settlement</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='user.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-users"></i>
+      <span>Users</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT – 100% UNCHANGED -->
+  <div class="main-content">
+    <div class="header">
+      <div class="user-info">
+        <span>Welcome, Partner Admin</span>
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">PA</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Disbursed Today</div>
+          <div class="kpi-value kpi-gold">₹48.72 Cr</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total Outstanding Book</div>
+          <div class="kpi-value">₹1,284.50 Cr</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total Repaid Today</div>
+          <div class="kpi-value kpi-gold">₹32.18 Cr</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Exposure Limit Utilized</div>
+          <div class="kpi-value">78.4%</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title">Daily Disbursement vs Repayments (₹ Cr)</div>
+          <canvas id="lineChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Exposure Across Tiers</div>
+          <canvas id="pieChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Tables -->
+      <div class="tables-grid">
+        <div class="table-card">
+          <div class="table-title">Latest Loan Requests</div>
+          <table>
+            <tr><th>Borrower</th><th>Amount</th><th>Status</th></tr>
+            <tr><td>Ram  </td><td>₹15000  </td><td class="status-success">Approved</td></tr>
+            <tr><td>Rohan </td><td>₹25000 </td><td class="status-warning">Under Review</td></tr>
+            <tr><td>Kalyani  </td><td>₹8000</td><td class="status-success">Disbursed</td></tr>
+            <tr><td>Charlie </td><td>₹18000 </td><td class="status-warning">Docs Pending</td></tr>
+          </table>
+        </div>
+
+        <div class="table-card">
+          <div class="table-title">Latest Repayments</div>
+          <table>
+            <tr><th>Borrower</th><th>Amount</th><th>Date</th></tr>
+            <tr><td>Anand  </td><td>₹120000</td><td>07 Dec 2025</td></tr>
+            <tr><td>Riya  </td><td>₹19000 </td><td>07 Dec 2025</td></tr>
+            <tr><td>Pranjal </td><td>₹7000 </td><td>06 Dec 2025</td></tr>
+            <tr><td>Abdul </td><td>₹11000 </td><td>06 Dec 2025</td></tr>
+          </table>
+        </div>
+
+        <div class="table-card">
+          <div class="table-title">Risk Alerts Summary</div>
+          <table>
+            <tr><th>Alert</th><th>Count</th><th>Action</th></tr>
+            <tr><td>Overdue > 7 days</td><td>6</td><td class="status-critical">High</td></tr>
+            <tr><td>LTV > 80%</td><td>12</td><td class="status-warning">Medium</td></tr>
+            <tr><td>Price Drop Alert</td><td>3</td><td class="status-warning">Monitor</td></tr>
+            <tr><td>New Defaulter Flag</td><td>1</td><td class="status-critical">Urgent</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Charts (unchanged)
+    new Chart(document.getElementById('lineChart'), {
+      type: 'line',
+      data: {
+        labels: ['01 Dec', '02 Dec', '03 Dec', '04 Dec', '05 Dec', '06 Dec', '07 Dec'],
+        datasets: [
+          { label: 'Disbursements (₹ Cr)', data: [32,48,41,55,62,58,48.72], borderColor: '#D0B060', backgroundColor: 'rgba(208,176,96,0.1)', tension: 0.4, fill: true },
+          { label: 'Repayments (₹ Cr)', data: [28,35,38,42,45,40,32.18], borderColor: '#7AA893', backgroundColor: 'rgba(122,168,147,0.1)', tension: 0.4, fill: true }
+        ]
+      },
+      options: { plugins: { legend: { position: 'bottom' } } }
+    });
+
+    new Chart(document.getElementById('pieChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Tier 1 (AAA)', 'Tier 2 (AA)', 'Tier 3 (A)', 'Tier 4 (BBB)'],
+        datasets: [{ data: [42,28,20,10], backgroundColor: ['#244F48','#7AA893','#D0B060','#D97706'] }]
+      },
+      options: { plugins: { legend: { position: 'bottom' } } }
+    });
+  </script>
+</body>
+</html>

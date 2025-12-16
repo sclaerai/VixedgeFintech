@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robo Growth – Smallcase</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { 
+      font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; 
+    }
+    .back-btn:hover { color:#00ffff; }
+
+    .page-title { 
+      font-size:1.6rem; font-weight:700; color:#00ffff; 
+    }
+
+    .header-right {
+      display:flex; align-items:center; gap:18px;
+    }
+    .vixai-logo {
+      font-size:1.7rem; font-weight:900; color:#00ffff;
+    }
+    .header-icons i {
+      font-size:1.5rem; color:#888; cursor:pointer; transition:0.4s;
+    }
+    .header-icons i:hover {
+      color:#00ffff; transform:scale(1.2);
+    }
+
+    main { flex:1; padding:90px 20px 180px; max-width:1000px; margin:0 auto; width:100%; }
+
+    /* NEON HOVER EFFECT ON ALL CONTAINERS */
+    .neon-card {
+      background:linear-gradient(135deg,#0a0a0a,#1a1a1a);
+      border:1px solid #222; border-radius:16px; padding:28px;
+      margin-bottom:24px; position:relative; overflow:hidden;
+      transition:all 0.45s cubic-bezier(0.23,1,0.32,1);
+    }
+    .neon-card::before {
+      content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+      background:linear-gradient(135deg,transparent,rgba(0,255,255,0.12),transparent);
+      transform:rotate(30deg); opacity:0; transition:opacity 0.6s;
+    }
+    .neon-card:hover {
+      transform:translateY(-12px) scale(1.02);
+      border-color:#00ffff;
+      box-shadow:0 20px 50px rgba(0,255,255,0.3);
+    }
+    .neon-card:hover::before { opacity:1; }
+
+    /* Hero */
+    .hero { padding:40px; text-align:center; }
+    .hero-thumb { width:120px; height:120px; background:#222; border-radius:20px; margin:0 auto 20px; }
+    .hero-name { font-size:2.4rem; font-weight:900; color:#00ffff; }
+    .hero-tagline { font-size:1.3rem; color:#00ff88; margin:16px 0; }
+
+    .metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin:30px 0; }
+    @media (max-width:768px) { .metrics { grid-template-columns:1fr; } }
+    .metric-box { background:#111; border:1px solid #00ffff22; border-radius:16px; padding:28px; text-align:center; }
+    .metric-value { font-size:3rem; font-weight:900; color:#00ff88; }
+    .metric-label { color:#888; font-size:1rem; margin-top:8px; }
+
+    .margin-eligible { padding:28px; text-align:center; }
+
+    /* Performance with Real Graphs */
+    .section-title { font-size:1.5rem; color:#00ffff; margin:40px 0 20px; font-weight:700; }
+    .chart-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; margin:30px 0; }
+    .chart-card {
+      height:280px; background:#111; border-radius:16px; padding:20px;
+      display:flex; flex-direction:column;
+    }
+    .chart-container {
+      flex:1; position:relative; margin:10px 0;
+    }
+
+    .fees-card, .risk-grid, .analyst-card, .rebalance-card { margin:30px 0; }
+
+    .risk-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
+    .risk-card { background:#ff000011; border:1px solid #ff446644; border-radius:16px; padding:24px; text-align:center; }
+    .risk-icon { font-size:2.5rem; color:#ff8888; margin-bottom:12px; }
+
+    .analyst-card { display:flex; gap:20px; align-items:center; padding:28px; }
+    .analyst-photo { width:80px; height:80px; background:#222; border-radius:50%; }
+    .analyst-quote { font-style:italic; color:#aaa; margin:12px 0; }
+
+    /* FIXED BOTTOM CTA — REDUCED SIZE, NO OVERLAP */
+    .cta-fixed {
+      position:fixed; bottom:70px; left:0; right:0;
+      display:flex; gap:12px; padding:16px 20px;
+      background:rgba(0,0,0,0.98); border-top:1px solid #1a1a1a;
+      backdrop-filter:blur(20px); z-index:999;
+    }
+    .btn-cta {
+      flex:1; padding:14px; border:none; border-radius:12px;
+      font-family:'Orbitron'; font-weight:900; font-size:1rem; cursor:pointer;
+      transition:0.3s;
+    }
+    .btn-cta small { display:block; font-size:0.75rem; margin-top:4px; font-weight:700; }
+    .btn-normal { background:#fff; color:#000; }
+    .btn-normal:hover { background:#00ffff; }
+    .btn-margin { background:#00ffff; color:#000; }
+    .btn-margin:hover { background:#00ff88; }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:12px 0; backdrop-filter:blur(10px);
+      z-index:1000;
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:8px 16px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.4rem; display:block; margin-bottom:4px; }
+    .nav-item span { font-size:0.7rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <!-- BACK BUTTON -->
+    <div class="back-btn" onclick="history.back()">Back</div>
+    
+    <!-- PAGE TITLE -->
+    <div class="page-title">Smallcase</div>
+
+    <!-- VIXAI + BELL + SEARCH -->
+    <div class="header-right">
+     <div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>
+      <div class="header-icons">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="neon-card hero">
+      <div class="hero-thumb"></div>
+      <div class="hero-name">Robo Growth</div>
+      <div class="hero-tagline">Automated large-cap compounding</div>
+      <p>A professionally managed basket of 15 blue-chip stocks selected using quantitative models.</p>
+    </div>
+
+    <div class="metrics">
+      <div class="neon-card metric-box"><div class="metric-value">14.2%</div><div class="metric-label">CAGR since inception</div></div>
+      <div class="neon-card metric-box"><div class="metric-value">Medium</div><div class="metric-label">Volatility</div></div>
+      <div class="neon-card metric-box"><div class="metric-value">₹5,000</div><div class="metric-label">Minimum Investment</div></div>
+    </div>
+
+    <div class="neon-card margin-eligible">
+      <div>You can invest with margin</div>
+      <div style="font-size:2.6rem; color:#00ff88; font-weight:900; margin:12px 0;">₹1,20,000</div>
+      <div style="color:#aaa;">Min contribution: ₹15,000</div>
+      <button style="margin-top:16px; padding:14px 32px; background:#00ffff; color:#000; border:none; border-radius:12px; font-weight:900;">
+        Check Full Eligibility
+      </button>
+    </div>
+
+    <!-- Performance with Real Charts -->
+    <h2 class="section-title">Performance</h2>
+    <div class="chart-grid">
+      <div class="neon-card chart-card">
+        <div style="font-size:1.1rem; color:#00ffff; margin-bottom:8px;">1Y Return</div>
+        <div class="chart-container">
+          <canvas id="chart1Y"></canvas>
+        </div>
+        <div style="color:#00ff88; font-weight:900; text-align:center;">+18.4%</div>
+      </div>
+      <div class="neon-card chart-card">
+        <div style="font-size:1.1rem; color:#00ffff; margin-bottom:8px;">3Y vs NIFTY 50</div>
+        <div class="chart-container">
+          <canvas id="chart3Y"></canvas>
+        </div>
+        <div style="color:#00ff88; font-weight:900; text-align:center;">+4.2% Alpha</div>
+      </div>
+      <div class="neon-card chart-card">
+        <div style="font-size:1.1rem; color:#00ffff; margin-bottom:8px;">Monthly Returns</div>
+        <div class="chart-container">
+          <canvas id="chartMonthly"></canvas>
+        </div>
+        <div style="color:#00ff88; font-weight:900; text-align:center;">18 Green Months</div>
+      </div>
+    </div>
+
+    <!-- Fees & Charges -->
+    <h2 class="section-title">Fees & Charges</h2>
+    <div class="neon-card fees-card">
+      <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #333;">
+        <span>Smallcase Fee</span><span>Free</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #333;">
+        <span>Brokerage</span><span>₹20/order</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #333;">
+        <span>Processing Fee (Margin)</span><span>₹5 per ₹1,000</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:12px 0; font-weight:900; color:#00ff88;">
+        <span>Interest Rate</span><span>10% p.a.</span>
+      </div>
+    </div>
+
+    <!-- Risk Summary -->
+    <h2 class="section-title">Risk Summary</h2>
+    <div class="risk-grid">
+      <div class="neon-card risk-card"><i class="fas fa-chart-line" style="font-size:2.5rem;color:#ff8888;"></i><strong>Market Risk</strong><p>Subject to equity volatility</p></div>
+      <div class="neon-card risk-card"><i class="fas fa-layer-group" style="font-size:2.5rem;color:#ff8888;"></i><strong>Concentration Risk</strong><p>Top 5 = 42%</p></div>
+      <div class="neon-card risk-card"><i class="fas fa-sync" style="font-size:2.5rem;color:#ff8888;"></i><strong>Rebalancing Risk</strong><p>Quarterly changes</p></div>
+      <div class="neon-card risk-card"><i class="fas fa-water" style="font-size:2.5rem;color:#ff8888;"></i><strong>Liquidity Risk</strong><p>May drop in bear markets</p></div>
+    </div>
+
+    <!-- Analyst Insight -->
+    <h2 class="section-title">Manager Insight</h2>
+    <div class="neon-card analyst-card">
+      <div style="width:80px;height:80px;background:#222;border-radius:50%;"></div>
+      <div>
+        <strong>Rahul Sharma</strong> • 12+ yrs experience<br>
+        <div style="font-style:italic;color:#aaa;margin:12px 0;">"Robo Growth is for investors who want quality without daily monitoring."</div>
+        <small>Last updated: 01 Dec 2025</small>
+      </div>
+    </div>
+
+    <!-- Rebalancing -->
+    <h2 class="section-title">Latest Rebalance</h2>
+    <div class="neon-card rebalance-card">
+      <div style="color:#00ffff;font-weight:700;">01 Dec 2025</div>
+      <p><strong>Added:</strong> Infosys, Asian Paints</p>
+      <p><strong>Removed:</strong> HUL, Nestle</p>
+      <p><strong>Weight ↑:</strong> TCS +1.2%, HDFC Bank +0.8%</p>
+      <button style="margin-top:16px;padding:12px 24px;background:#00ffff;color:#000;border:none;border-radius:12px;font-weight:900;">
+        View Full History
+      </button>
+    </div>
+  </main>
+
+  <!-- FIXED CTA — REDUCED SIZE, NO FOOTER OVERLAP -->
+  <div class="cta-fixed">
+    <button class="btn-cta btn-normal">Invest Normally<br><small>Min ₹5,000</small></button>
+    <button class="btn-cta btn-margin">Invest with Margin<br><small>Up to ₹1,20,000</small></button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+  <script>
+    Chart.defaults.color = '#888';
+    Chart.defaults.borderColor = '#333';
+
+    const ctx1Y = document.getElementById('chart1Y').getContext('2d');
+    new Chart(ctx1Y, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+          label: 'Robo Growth',
+          data: [100, 102, 105, 103, 108, 111, 109, 113, 116, 115, 118, 118.4],
+          borderColor: '#00ffff',
+          backgroundColor: 'rgba(0, 255, 255, 0.1)',
+          tension: 0.4,
+          fill: true,
+          pointRadius: 0,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+          y: { grid: { color: '#222' }, ticks: { font: { size: 9 } } }
+        }
+      }
+    });
+
+    const ctx3Y = document.getElementById('chart3Y').getContext('2d');
+    new Chart(ctx3Y, {
+      type: 'line',
+      data: {
+        labels: ['2022', 'Q2', 'Q3', 'Q4', '2023', 'Q2', 'Q3', 'Q4', '2024', 'Q2', 'Q3', 'Q4'],
+        datasets: [{
+          label: 'Robo Growth',
+          data: [100, 103, 108, 112, 118, 125, 130, 135, 142, 148, 155, 162],
+          borderColor: '#00ffff',
+          backgroundColor: 'rgba(0, 255, 255, 0.1)',
+          tension: 0.4,
+          fill: false,
+          pointRadius: 0,
+          borderWidth: 2
+        }, {
+          label: 'NIFTY 50',
+          data: [100, 101, 105, 108, 113, 118, 122, 127, 132, 138, 143, 148],
+          borderColor: '#ff8888',
+          backgroundColor: 'rgba(255, 136, 136, 0.1)',
+          tension: 0.4,
+          fill: false,
+          pointRadius: 0,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { 
+            display: true,
+            labels: { color: '#888', font: { size: 10 }, boxWidth: 20 }
+          }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 8 } } },
+          y: { grid: { color: '#222' }, ticks: { font: { size: 9 } } }
+        }
+      }
+    });
+
+    const ctxMonthly = document.getElementById('chartMonthly').getContext('2d');
+    new Chart(ctxMonthly, {
+      type: 'bar',
+      data: {
+        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
+        datasets: [{
+          label: 'Monthly Return %',
+          data: [2.1, 3.2, -1.5, 2.8, 4.1, -0.8, 3.5, 2.2, -1.2, 1.8, 2.5, 0.3],
+          backgroundColor: function(context) {
+            const value = context.parsed.y;
+            return value >= 0 ? '#00ff88' : '#ff8888';
+          },
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+          y: { grid: { color: '#222' }, ticks: { font: { size: 9 }, callback: v => v + '%' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

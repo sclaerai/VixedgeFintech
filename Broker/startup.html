@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE | Broker Portal Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --blue-primary: #0A3D62;
+      --blue-accent: #1E90FF;
+      --blue-light: #E6F0FA;
+      --blue-hover: #145A8C;
+      --gray-dark: #2D3748;
+      --gray-medium: #718096;
+      --white: #FFFFFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--blue-light) 0%, #D4E4F7 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: var(--white);
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(10, 61, 98, 0.15);
+      overflow: hidden;
+      border: 1px solid rgba(10, 61, 98, 0.1);
+    }
+
+    .login-header {
+      background: var(--blue-primary);
+      padding: 32px 24px;
+      text-align: center;
+      color: white;
+    }
+
+    .logo-text {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #FFFFFF, #A0D8FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 15px;
+      opacity: 0.95;
+      font-weight: 500;
+    }
+
+    .login-body {
+      padding: 40px 32px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-dark);
+      margin-bottom: 8px;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid #CBD5E0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: all 0.25s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--blue-accent);
+      box-shadow: 0 0 0 4px rgba(30, 144, 255, 0.18);
+    }
+
+    .btn-login {
+      width: 100%;
+      background: var(--blue-primary);
+      color: white;
+      border: none;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 24px;
+    }
+
+    .btn-login:hover {
+      background: var(--blue-hover);
+      transform: translateY(-1px);
+    }
+
+    .otp-option a, .forgot-password a {
+      color: var(--blue-accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .otp-option a:hover, .forgot-password a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 13px;
+      color: var(--gray-medium);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-header">
+      <div class="logo-text">VIXEDGE</div>
+      <div class="tagline">Institutional Broker Operations Portal</div>
+    </div>
+
+    <div class="login-body">
+      <form>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="john.doe@vixedge.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your secure password" required />
+        </div>
+
+        <div class="otp-option" style="text-align:center; margin:16px 0; font-size:14px; color:#64748B;">
+          Or <a href="#">login with One-Time Password (OTP)</a>
+        </div>
+
+<button type="button" class="btn-login" onclick="window.location.href='home.html'">Access VIXEDGE Portal</button>      </form>
+
+      <div class="forgot-password" style="text-align:center; margin-top:24px;">
+        <a href="#">Forgot Password?</a>
+      </div>
+
+      <div class="footer-note">
+        © 2025 VIXEDGE Capital Markets. All rights reserved.
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

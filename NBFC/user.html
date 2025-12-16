@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE NBFC | User Profile - Nikhil Sharma</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Same Phosphor Icons used across the portal -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    :root {
+      --mint-light: #E4F2EF;
+      --sage-medium: #7AA893;
+      --deep-teal: #244F48;
+      --gold: #D0B060;
+      --soft-white: #F9FAF8;
+      --light-grey: #D9E0DF;
+      --charcoal: #1F1F1F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--mint-light);
+      color: var(--charcoal);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* SAME SIDEBAR WITH ICONS - Users ACTIVE */
+    .sidebar {
+      width: 280px;
+      background: var(--deep-teal);
+      color: white;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      padding: 24px 0;
+      box-shadow: 4px 0 20px rgba(36,79,72,0.2);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    .sidebar .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+      text-align: center;
+      padding: 0 20px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 30px;
+    }
+    .nav-item {
+      padding: 16px 28px;
+      font-size: 15px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.1); }
+    .nav-item.active {
+      background: var(--gold);
+      color: white;
+      font-weight: 600;
+    }
+    .nav-item i { width: 24px; height: 24px; }
+
+    .main-content { margin-left: 280px; flex: 1; }
+    .header {
+      background: var(--deep-teal);
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      box-shadow: 0 4px 20px rgba(36,79,72,0.2);
+    }
+    .page-title {
+      padding: 32px 40px 16px;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--deep-teal);
+    }
+    .container { padding: 0 40px 40px; max-width: 1600px; margin: 0 auto; }
+
+    /* ORIGINAL STYLES - 100% UNCHANGED */
+    .section-card {
+      background: var(--soft-white);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 32px;
+      border: 1px solid var(--light-grey);
+      box-shadow: 0 8px 25px rgba(36,79,72,0.08);
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--deep-teal);
+      margin-bottom: 20px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .info-item { font-size: 15px; }
+    .info-label { font-weight: 500; color: #666; }
+    .info-value { font-weight: 600; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+    th {
+      background: var(--deep-teal);
+      color: white;
+      padding: 14px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td { padding: 14px; border-bottom: 1px solid var(--light-grey); }
+    tr:hover { background: #f8fbf9; }
+
+    .status-active { color: var(--sage-medium); font-weight: 600; }
+    .status-overdue { color: #D97706; font-weight: 600; }
+    .status-npa { color: #C53030; font-weight: 600; }
+    .risk-a { color: var(--sage-medium); font-weight: 700; }
+
+    .override-form {
+      margin-top: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .override-input {
+      padding: 12px 16px;
+      border: 1.5px solid var(--light-grey);
+      border-radius: 10px;
+      width: 200px;
+    }
+    .btn-save {
+      background: linear-gradient(90deg, #D0B060, #C9A652);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-save:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(208,176,96,0.4); }
+
+    @media (max-width: 768px) {
+      .info-grid { grid-template-columns: 1fr; }
+      .override-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR WITH ICONS - Users ACTIVE -->
+  <div class="sidebar">
+    <div class="logo">VIXEDGE NBFC</div>
+      <div class="nav-item  " onclick="window.location.href='dashboard.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-gauge"></i>
+      <span>Dashboard</span>
+    </div>
+   <div class="nav-item" onclick="window.location.href='loan request.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-file-text"></i>
+      <span>Loan Requests</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='loan kitab.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-book-open"></i>
+      <span>Loan Book</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='rpymnt.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-arrow-circle-down"></i>
+      <span>Repayments</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='settlement n disbursement.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-arrows-clockwise"></i>
+      <span>Settlement</span>
+    </div>
+    <div class="nav-item active" onclick="window.location.href='user.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-users"></i>
+      <span>Users</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT - 100% ORIGINAL -->
+  <div class="main-content">
+    <div class="header">
+      <div style="display:flex;align-items:center;gap:12px;color:white;">
+        <span>Welcome, Partner Admin</span>
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">PA</div>
+      </div>
+    </div>
+
+    <div class="page-title">User Profile - Nikhil Sharma</div>
+
+    <div class="container">
+
+      <!-- User Overview -->
+      <div class="section-card">
+        <div class="section-title">User Overview</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-label">User ID</div><div class="info-value">USR-456789</div></div>
+          <div class="info-item"><div class="info-label">Full Name</div><div class="info-value">Nikhil Sharma</div></div>
+          <div class="info-item"><div class="info-label">Email</div><div class="info-value">nikhil.sharma@example.com</div></div>
+          <div class="info-item"><div class="info-label">Phone</div><div class="info-value">+91 98765 43210</div></div>
+          <div class="info-item"><div class="info-label">Registration Date</div><div class="info-value">15 Aug 2025</div></div>
+          <div class="info-item"><div class="info-label">Current Risk Tier</div><div class="info-value risk-a">A</div></div>
+          <div class="info-item"><div class="info-label">Total Exposure</div><div class="info-value">₹45,000</div></div>
+          <div class="info-item"><div class="info-label">Credit Limit</div><div class="info-value">₹70,000</div></div>
+        </div>
+        <div class="override-form">
+          <label for="new-limit" style="font-weight:500;">Override Credit Limit:</label>
+          <input type="number" id="new-limit" class="override-input" placeholder="Enter new limit" />
+          <button class="btn-save">Save Override</button>
+        </div>
+      </div>
+
+      <!-- KYC Documents -->
+      <div class="section-card">
+        <div class="section-title">KYC Documents</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-label">Aadhaar</div><div class="info-value">Verified (XXXX XXXX 1234)</div></div>
+          <div class="info-item"><div class="info-label">PAN</div><div class="info-value">Verified (ABCDE1234F)</div></div>
+          <div class="info-item"><div class="info-label">Video KYC</div><div class="info-value">Completed on 20 Aug 2025</div></div>
+        </div>
+      </div>
+
+      <!-- Bank Details -->
+      <div class="section-card">
+        <div class="section-title">Bank Details</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-label">Account Holder</div><div class="info-value">Nikhil Sharma</div></div>
+          <div class="info-item"><div class="info-label">Bank Name</div><div class="info-value">State Bank of India</div></div>
+          <div class="info-item"><div class="info-label">Account Number</div><div class="info-value">XXXX XXXX 5678</div></div>
+          <div class="info-item"><div class="info-label">IFSC Code</div><div class="info-value">SBIN0001234</div></div>
+          <div class="info-item"><div class="info-label">UPI ID</div><div class="info-value">nikhil@upi</div></div>
+        </div>
+      </div>
+
+      <!-- Loan History -->
+      <div class="section-card">
+        <div class="section-title">Loan History</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Loan ID</th>
+              <th>Type</th>
+              <th>Principal</th>
+              <th>Disbursed Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>LN100845</td>
+              <td>IPO Margin</td>
+              <td>₹45,000</td>
+              <td>01 Nov 2025</td>
+              <td class="status-active">Active</td>
+            </tr>
+            <tr>
+              <td>LN100842</td>
+              <td>Pledge</td>
+              <td>₹30,000</td>
+              <td>15 Sep 2025</td>
+              <td class="status-active">Closed</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Repayments -->
+      <div class="section-card">
+        <div class="section-title">Repayments</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Loan ID</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Mode</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>LN100845</td>
+              <td>₹4,200</td>
+              <td>15 Nov 2025</td>
+              <td>UPI</td>
+              <td class="status-active">Paid</td>
+            </tr>
+            <tr>
+              <td>LN100842</td>
+              <td>₹30,500</td>
+              <td>15 Oct 2025</td>
+              <td>Bank Transfer</td>
+              <td class="status-active">Paid</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Delays / Penalties -->
+      <div class="section-card">
+        <div class="section-title">Delays / Penalties</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Loan ID</th>
+              <th>Delayed Days</th>
+              <th>Penalty Amount</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>LN100842</td>
+              <td>3 days</td>
+              <td>₹150</td>
+              <td>12 Oct 2025</td>
+              <td class="status-overdue">Paid</td>
+            </tr>
+            <tr>
+              <td colspan="5">No other delays</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Collateral History -->
+      <div class="section-card">
+        <div class="section-title">Collateral History</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Loan ID</th>
+              <th>Collateral Type</th>
+              <th>Value</th>
+              <th>LTV %</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>LN100845</td>
+              <td>Gold Pledge</td>
+              <td>₹60,000</td>
+              <td>75%</td>
+              <td class="status-active">Active</td>
+            </tr>
+            <tr>
+              <td>LN100842</td>
+              <td>Shares</td>
+              <td>₹40,000</td>
+              <td>75%</td>
+              <td class="status-active">Released</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Broker Mapping -->
+      <div class="section-card">
+        <div class="section-title">Broker Mapping</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="info-label">Primary Broker</div><div class="info-value">Zerodha</div></div>
+          <div class="info-item"><div class="info-label">Account ID</div><div class="info-value">ZH123456</div></div>
+          <div class="info-item"><div class="info-label">Linked Since</div><div class="info-value">10 Aug 2025</div></div>
+        </div>
+      </div>
+
+      <!-- IPO History -->
+      <div class="section-card">
+        <div class="section-title">IPO History</div>
+        <table>
+          <thead>
+            <tr>
+              <th>IPO Name</th>
+              <th>Applied Amount</th>
+              <th>Margin Used</th>
+              <th>Allotment</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TechCorp IPO</td>
+              <td>₹45,000</td>
+              <td>₹30,000</td>
+              <td>100 shares</td>
+              <td>05 Nov 2025</td>
+            </tr>
+            <tr>
+              <td>No other IPOs</td>
+              <td colspan="4"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

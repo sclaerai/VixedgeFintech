@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zerodha Fintech RHP – VIXEDGE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { 
+      font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; 
+    }
+    .back-btn:hover { color:#00ffff; }
+
+    .page-title {
+      font-size:1.4rem; font-weight:700; color:#00ffff;
+    }
+
+    .header-right {
+      display:flex; align-items:center; gap:18px;
+    }
+    .vixai-logo {
+      font-size:1.7rem; font-weight:900; color:#00ffff;
+    }
+    .header-icons i {
+      font-size:1.5rem; color:#888; cursor:pointer; transition:0.4s;
+    }
+    .header-icons i:hover {
+      color:#00ffff; transform:scale(1.2);
+    }
+
+    main { flex:1; padding:90px 20px 120px; max-width:1400px; margin:0 auto; width:100%; }
+
+    .pdf-container {
+      width:100%; height:70vh; background:#0a0a0a; border:2px solid #222; border-radius:16px;
+      overflow-y:auto; padding:40px; margin-bottom:30px; box-shadow:0 10px 30px rgba(0,255,255,0.1);
+      font-size:0.95rem; line-height:1.8; color:#ccc;
+    }
+    .pdf-header {
+      text-align:center; margin-bottom:40px; color:#00ffff; font-size:1.8rem; font-weight:900;
+    }
+    .section-title { color:#00ffff; font-size:1.4rem; margin:30px 0 16px; }
+    .page-break { border-top:2px dashed #333; margin:60px 0; text-align:center; color:#555; padding-top:20px; }
+
+    .actions { text-align:center; margin:30px 0; }
+    .btn-ai {
+      padding:18px 40px; background:#00ffff; color:#000; border:none; border-radius:14px;
+      font-family:'Orbitron'; font-weight:900; font-size:1.1rem; letter-spacing:0.1em;
+      cursor:pointer; transition:all 0.4s;
+    }
+    .btn-ai:hover { background:#00cccc; box-shadow:0 0 50px rgba(0,255,255,0.7); transform:scale(1.06); }
+
+    .summary-box { background:linear-gradient(135deg,#0f0f0f,#1a1a1a); border:1px solid #00ffff33; border-radius:16px; padding:32px; margin-bottom:30px; display:none; }
+    .summary-box.active { display:block; animation:fadeIn 0.7s; }
+    .summary-title { color:#00ffff; font-size:1.8rem; margin-bottom:24px; text-align:center; }
+
+    .chat-container { background:#0a0a0a; border:1px solid #333; border-radius:16px; height:520px; display:flex; flex-direction:column; }
+    .chat-messages { flex:1; overflow-y:auto; padding:20px; gap:16px; display:flex; flex-direction:column; }
+    .message { max-width:80%; padding:16px 22px; border-radius:16px; line-height:1.7; animation:fadeIn 0.5s; }
+    .user { background:#00ffff22; align-self:flex-end; border:1px solid #00ffff44; }
+    .ai { background:#1a1a1a; align-self:flex-start; border:1px solid #444; }
+
+    .chat-input { display:flex; padding:20px; background:#111; border-top:1px solid #333; }
+    .chat-input input { flex:1; padding:16px 20px; background:#000; border:1px solid #444; border-radius:12px; color:#fff; font-family:'Orbitron'; }
+    .chat-input button { margin-left:12px; padding:0 28px; background:#00ffff; color:#000; border:none; border-radius:12px; font-weight:900; cursor:pointer; }
+
+    footer { position:fixed; bottom:0; width:100%; background:#000; border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px); }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.7rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.78rem; font-weight:500; }
+
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
+  </style>
+</head>
+<body>
+
+  <header>
+    <!-- BACK BUTTON -->
+    <div class="back-btn" onclick="history.back()">Back</div>
+
+    <!-- PAGE TITLE -->
+    <div class="page-title">Zerodha Fintech Ltd – RHP</div>
+
+    <!-- VIXAI + BELL + SEARCH -->
+    <div class="header-right">
+<div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>      <div class="header-icons">
+      <div class="header-icons">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- DUMMY RHP TEXT (500+ lines – scrollable) -->
+    <div class="pdf-container">
+      <div class="pdf-header">RED HERRING PROSPECTUS<br><small>Dated: December 08, 2025</small></div>
+      <h1 class="section-title">ZERODHA FINTECH LIMITED</h1>
+      <p><strong>Corporate Identity Number:</strong> U67120KA2010PLC123456</p>
+      <p><strong>Registered Office:</strong> #153/154, 4th Cross, Dollars Colony, Bengaluru 560094</p>
+      <p><strong>Contact Person:</strong> Mr. Venu Madhav, Company Secretary</p>
+
+      <div class="section-title">1. RISK FACTORS</div>
+      <p>Investment in equity shares involves a high degree of risk...</p>
+      <p>Our business is heavily dependent on stock market volumes...</p>
+      <p>Changes in SEBI regulations may impact revenue...</p>
+
+      <div class="section-title">2. BUSINESS OVERVIEW</div>
+      <p>Zerodha is India’s largest retail stockbroker by active clients with over 1.5 crore users as of September 2025...</p>
+      <p>We pioneered zero-brokerage model in 2015...</p>
+      <p>Revenue streams: Brokerage (48%), Interest (38%), Software (14%)...</p>
+
+      <div class="section-title">3. FINANCIAL INFORMATION (₹ in crore)</div>
+      <table style="width:100%; border-collapse:collapse; margin:20px 0;">
+        <tr style="background:#00ffff22;"><th>Particulars</th><th>FY22</th><th>FY23</th><th>FY24</th></tr>
+        <tr><td>Revenue from Operations</td><td>3,100</td><td>5,100</td><td>8,214</td></tr>
+        <tr><td>Profit After Tax</td><td>1,650</td><td>2,800</td><td>4,317</td></tr>
+        <tr><td>Net Worth</td><td>5,200</td><td>7,100</td><td>10,800</td></tr>
+        <tr><td>Debt</td><td>Nil</td><td>Nil</td><td>Nil</td></tr>
+      </table>
+
+      <div class="section-title">4. OBJECTS OF THE ISSUE</div>
+      <p>₹3,200 crore fresh issue to be utilised as follows:</p>
+      <ul>
+        <li>₹1,200 Cr – Technology upgrade & new products</li>
+        <li>₹900 Cr – Marketing & customer acquisition</li>
+        <li>₹700 Cr – Working capital</li>
+        <li>₹400 Cr – General corporate purposes</li>
+      </ul>
+
+      <div class="section-title">5. PROMOTER HOLDING</div>
+      <p>Promoters: Mr. Nithin Kamath, Mr. Nikhil Kamath and family hold 100% pre-issue. No PE/VC investor.</p>
+
+      <div class="section-title">6. COMPETITIVE STRENGTHS</div>
+      <ul>
+        <li>Lowest cost structure in industry</li>
+        <li>Strong brand trust & transparency</li>
+        <li>Tech-first DNA – in-house platforms</li>
+        <li>Zero debt, ₹2,800 Cr cash</li>
+      </ul>
+
+      <div class="page-break">Page 487 of 487</div>
+      <p style="margin-top:60px; color:#555;">[End of Document]</p>
+    </div>
+
+    <!-- Summarise Button -->
+    <div class="actions">
+      <button class="btn-ai" id="summariseBtn">Summarise this Report</button>
+    </div>
+
+    <!-- AI Summary -->
+    <div class="summary-box" id="summaryBox">
+      <h2 class="summary-title">AI Summary of RHP</h2>
+      <ul style="line-height:2.3; font-size:1.1rem; color:#ddd;">
+        <li>India’s largest retail brokerage with 1.5+ crore active clients</li>
+        <li>FY24 Revenue: ₹8,214 Cr (+62% YoY)</li>
+        <li>FY24 Profit: ₹4,317 Cr (+108% YoY)</li>
+        <li>Zero debt | ₹2,800 Cr cash reserves</li>
+        <li>Issue Size: ₹3,200 Cr fresh issue</li>
+        <li>Use of Proceeds: Tech, marketing, working capital</li>
+        <li>Promoters hold 100% pre-IPO</li>
+        <li>Valuation: 42x FY24 earnings</li>
+        <li>Major Risks: Regulatory, competition, volume dependency</li>
+      </ul>
+    </div>
+
+    <!-- AI Q&A Chat -->
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages">
+        <div class="message ai">
+          I have analysed the full RHP. Ask me anything — revenue, risks, valuation, promoters, etc.
+        </div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="questionInput" placeholder="Ask about this RHP..." />
+        <button onclick="sendQuestion()">Send</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer – MARKETS (not Invest) -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('summariseBtn').addEventListener('click', function() {
+      const box = document.getElementById('summaryBox');
+      box.classList.toggle('active');
+      this.textContent = box.classList.contains('active') ? "Hide Summary" : "Summarise this Report";
+    });
+
+    const answers = {
+      revenue: "Zerodha reported ₹8,214 crore revenue in FY24, up 62% from ₹5,100 crore in FY23. Brokerage income grew 48% and interest income surged 92%.",
+      debt: "The company has ZERO debt as of March 2024 and holds ₹2,800 crore in cash and cash equivalents.",
+      valuation: "At upper band of ₹340, the IPO values Zerodha at ~42x FY24 earnings and 12x book value — reasonable for a high-growth, zero-debt fintech.",
+      promoters: "Promoters Nithin Kamath, Nikhil Kamath & family hold 100% pre-issue. No PE/VC investors. No promoter selling in this IPO.",
+      risks: "Key risks: 1) Regulatory changes in brokerage pricing 2) Competition from Groww, Angel One 3) Dependence on market volumes 4) Cybersecurity threats.",
+      default: "Zerodha is a bootstrapped, zero-debt, highly profitable leader with 19% market share and strong brand trust."
+    };
+
+    function sendQuestion() {
+      const input = document.getElementById('questionInput');
+      const q = input.value.toLowerCase().trim();
+      if (!q) return;
+
+      const messages = document.getElementById('chatMessages');
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user';
+      userMsg.textContent = q;
+      messages.appendChild(userMsg);
+
+      setTimeout(() => {
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'message ai';
+        let reply = answers.default;
+
+        if (q.includes('revenue') || q.includes('income')) reply = answers.revenue;
+        else if (q.includes('debt') || q.includes('loan')) reply = answers.debt;
+        else if (q.includes('valuation') || q.includes('pe') || q.includes('price')) reply = answers.valuation;
+        else if (q.includes('promoter') || q.includes('nithin') || q.includes('kamath')) reply = answers.promoters;
+        else if (q.includes('risk')) reply = answers.risks;
+
+        aiMsg.textContent = reply;
+        messages.appendChild(aiMsg);
+        messages.scrollTop = messages.scrollHeight;
+      }, 800);
+
+      input.value = '';
+    }
+
+    document.getElementById('questionInput').addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendQuestion();
+    });
+  </script>
+</body>
+</html>

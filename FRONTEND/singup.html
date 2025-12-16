@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up – VIXEDGE</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap');
+    body,html{margin:0;padding:0;height:100%;overflow:hidden;background:#000;color:#fff;
+      font-family:'Orbitron',sans-serif;display:flex;align-items:center;justify-content:center;}
+    .container{width:420px;max-width:95%;text-align:center}
+    .logo{font-size:4.5vw;font-weight:900;letter-spacing:0;margin-bottom:40px;
+      background:linear-gradient(90deg,#fff,#ccc);-webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;}
+    input{width:100%;padding:16px;margin:10px 0;background:rgba(255,255,255,0.05);
+      border:1px solid #333;color:#fff;border-radius:6px;font-family:'Orbitron';font-size:0.95rem;box-sizing:border-box;}
+    input:focus{outline:none;border-color:#fff;background:rgba(255,255,255,0.1);}
+    button{width:100%;padding:16px;margin-top:16px;background:#fff;color:#000;
+      font-weight:900;border:none;border-radius:6px;cursor:pointer;
+      font-size:1rem;letter-spacing:0.2em;box-sizing:border-box;}
+    button:hover{background:#ddd;}
+    .switch{margin-top:24px;color:#888;font-size:0.9rem;}
+    .switch a{color:#fff;text-decoration:none;border-bottom:1px solid #555;}
+    @media(max-width:768px){.logo{font-size:6.3vw;margin-bottom:50px;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="logo">VIXEDGE</h1>
+    <form>
+      <input type="text" placeholder="FULL NAME" required>
+      <input type="email" placeholder="EMAIL" required>
+      <input type="password" placeholder="PASSWORD" required>
+      <input type="password" placeholder="CONFIRM PASSWORD" required>
+      <button type="submit">CREATE ACCOUNT</button>
+    </form>
+    <p class="switch">Already have an account? <a href="login.html">Login</a></p>
+  </div>
+</body>
+</html>

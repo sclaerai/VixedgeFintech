@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pledge Successful – VIXEDGE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:20px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; }
+    .back-btn:hover { color:#00ffff; }
+
+    main { flex:1; padding:90px 20px 140px; max-width:900px; margin:0 auto; width:100%; text-align:center; display:flex; flex-direction:column; justify-content:center; }
+
+    .success-container {
+      background:linear-gradient(135deg,#0f0f0f,#1f1f1f);
+      border:3px solid #00ff8833; border-radius:24px;
+      padding:50px 30px; max-width:600px; margin:0 auto;
+      box-shadow:0 0 80px rgba(0,255,136,0.3);
+      animation:successPulse 2s infinite alternate;
+    }
+    @keyframes successPulse {
+      0% { box-shadow:0 0 60px rgba(0,255,136,0.3); }
+      100% { box-shadow:0 0 100px rgba(0,255,136,0.5); }
+    }
+
+    .success-icon {
+      font-size:7rem; color:#00ff88; margin-bottom:20px;
+      animation:float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform:translateY(0); }
+      50% { transform:translateY(-20px); }
+    }
+
+    .success-title {
+      font-size:2.8rem; font-weight:900; color:#00ff88; margin:20px 0;
+    }
+    .success-subtitle {
+      font-size:1.4rem; color:#00ffff; margin:16px 0;
+    }
+    .success-amount {
+      font-size:3.2rem; font-weight:900; color:#00ff88; margin:30px 0;
+      text-shadow:0 0 30px #00ff88;
+    }
+
+    .details-card {
+      background:#111; border-radius:16px; padding:28px; margin:30px 0;
+      border:1px solid #00ff8833;
+    }
+    .detail-row {
+      display:flex; justify-content:space-between; padding:14px 0;
+      border-bottom:1px solid #333; font-size:1.1rem;
+    }
+    .detail-row:last-child { border:none; }
+    .detail-label { color:#aaa; }
+    .detail-value { color:#00ff88; font-weight:700; }
+
+    .next-steps {
+      background:#0f0f0f; border-radius:16px; padding:24px; margin:30px 0;
+      border:1px solid #00ffff33; line-height:2;
+    }
+    .next-steps li { color:#ddd; margin:12px 0; }
+
+    .btn-home {
+      padding:20px 50px; background:#00ffff; color:#000;
+      border:none; border-radius:16px; font-family:'Orbitron'; font-weight:900;
+      font-size:1.4rem; letter-spacing:0.1em; cursor:pointer;
+      transition:all 0.4s; margin-top:20px;
+    }
+    .btn-home:hover {
+      background:#00cccc; box-shadow:0 0 60px rgba(0,255,255,0.7); transform:scale(1.05);
+    }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px);
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.7rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.78rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div></div>
+    <div style="font-size:1.6rem; font-weight:700;">Pledge Successful</div>
+    <div></div>
+  </header>
+
+  <main>
+    <div class="success-container">
+      <i class="fas fa-check-circle success-icon"></i>
+      <div class="success-title">Pledge Successful!</div>
+      <div class="success-subtitle">Your margin is now active</div>
+      <div class="success-amount">+₹43,008</div>
+      <p style="color:#aaa; margin:20px 0; font-size:1.1rem;">
+        Added to your available margin limit
+      </p>
+
+      <div class="details-card">
+        <div class="detail-row">
+          <span class="detail-label">Security Pledged</span>
+          <span class="detail-value">HDFC Bank • 40 shares</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Pledge Value</span>
+          <span class="detail-value">₹53,760</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">LTV Applied</span>
+          <span class="detail-value">80%</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Margin Received</span>
+          <span class="detail-value">₹43,008</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Processing Fee</span>
+          <span class="detail-value">₹75</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Status</span>
+          <span class="detail-value">Approved Instantly</span>
+        </div>
+      </div>
+
+      <div class="next-steps">
+        <strong>What's next?</strong>
+        <ul style="text-align:left; margin-top:16px;">
+          <li>Use this margin to apply for any IPO</li>
+          <li>Interest starts only when you use the margin</li>
+          <li>Repayment auto-deducted after allotment or 4 days</li>
+          <li>Track status anytime in Pledge section</li>
+        </ul>
+      </div>
+
+      <button class="btn-home" onclick="location.href='home.html'">
+        Back to Home
+      </button>
+    </div>
+  </main>
+
+  <!-- Footer – Only 3 Icons -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item active"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item" onclick="location.href='markets.html'"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+</body>
+</html>

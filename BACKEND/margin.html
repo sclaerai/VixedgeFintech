@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE • Margin System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #171b21;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent: #00d4ff;
+      --border: #2d3748;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+    }
+    /* Sidebar */
+    #sidebar {
+      width: 70px;
+      background: var(--surface);
+      transition: width 0.35s ease;
+      overflow: hidden;
+      border-right: 1px solid var(--border);
+      z-index: 10;
+      flex-shrink: 0;
+    }
+    #sidebar:hover { width: 260px; }
+    #sidebar:hover .label { opacity:1; margin-left:12px; }
+    .menu { padding: 20px 0; }
+    .menu-item {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .menu-item:hover { background: rgba(0,212,255,0.1); color: var(--accent); }
+    .menu-item.active {
+      background: rgba(0,212,255,0.15);
+      color: var(--accent);
+      border-left: 4px solid var(--accent);
+    }
+    .menu-item i { font-size: 22px; width: 30px; text-align:center; }
+    .label { opacity: 0; transition: all 0.3s; font-weight: 500; white-space: nowrap; }
+
+    /* Main */
+    main {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+      position: relative;
+    }
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 70px;
+      right: 0;
+      height: 70px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--accent);
+      z-index: 9;
+    }
+    .content { margin-top: 90px; }
+    .header {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+    .search-bar {
+      width: 100%;
+      max-width: 500px;
+      padding: 14px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 16px;
+      margin-bottom: 32px;
+    }
+    .search-bar::placeholder { color: var(--text-muted); }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .table th {
+      background: rgba(0,212,255,0.1);
+      text-align: left;
+      padding: 16px 20px;
+      font-weight: 500;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+    }
+    .table td {
+      padding: 18px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .table tr:hover { background: rgba(0,212,255,0.05); }
+
+    .status { padding: 5px 11px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+    .status.pending    { background: #5d3f01; color: #fbbf24; }
+    .status.approved   { background: #166534; color: #86efac; }
+    .status.sent       { background: #1e3a8a; color: #93c5fd; }
+    .status.repaid     { background: #1e3a8a; color: #93c5fd; }
+    .status.default    { background: #7f1d1d; color: #fca5a5; }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 13px;
+      margin-right: 8px;
+      transition: all 0.2s;
+    }
+    .btn-approve { background: #166534; color: #86efac; }
+    .btn-close   { background: #1e40af; color: #93c5fd; }
+    .btn-flag    { background: #7f1d1d; color: #fca5a5; }
+    .btn:hover { transform: translateY(-2px); }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <aside id="sidebar">
+    <div class="menu">
+     <div class="menu-item  " onclick="window.location.href='dashboard.html'" style="cursor: pointer;"><i class="fas fa-home"></i><span class="label">Dashboard</span></div>
+      <div class="menu-item" onclick="window.location.href='usermgmt.html'" style="cursor: pointer;"><i class="fas fa-users"></i><span class="label">User Management</span></div>
+      <div class="menu-item active" onclick="window.location.href='margin.html'" style="cursor: pointer;"><i class="fas fa-coins"></i><span class="label">Margin System</span></div>
+      <div class="menu-item" onclick="window.location.href='ipo opt.html'" style="cursor: pointer;"><i class="fas fa-chart-line"></i><span class="label">IPO Operations Panel</span></div>
+      <div class="menu-item" onclick="window.location.href='nbfc.html'" style="cursor: pointer;"><i class="fas fa-university"></i><span class="label">NBFC Integrations</span></div>
+      <div class="menu-item" onclick="window.location.href='broker.html'" style="cursor: pointer;"><i class="fas fa-exchange-alt"></i><span class="label">Broker Integrations Panel</span></div>
+      <div class="menu-item" onclick="window.location.href='escrow.html'" style="cursor: pointer;"><i class="fas fa-wallet"></i><span class="label">Escrow / Banking Panel</span></div>
+      <div class="menu-item" onclick="window.location.href='fin n acc.html'" style="cursor: pointer;"><i class="fas fa-file-invoice-dollar"></i><span class="label">Finance & Accounting</span></div>
+      <div class="menu-item" onclick="window.location.href='risk.html'" style="cursor: pointer;"><i class="fas fa-shield-alt"></i><span class="label">Risk & Compliance</span></div>
+      <div class="menu-item" onclick="window.location.href='support.html'" style="cursor: pointer;"><i class="fas fa-ticket-alt"></i><span class="label">Support & Tickets</span></div>
+      <div class="menu-item" onclick="window.location.href='setting.html  '" style="cursor: pointer;"><i class="fas fa-cog"></i><span class="label">Settings</span></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="top-bar">VIXEDGE</div>
+    <div class="content">
+      <h1 class="header">Margin System</h1>
+      
+      <input type="text" class="search-bar" placeholder="Search by user, loan ID, broker, amount..." />
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Loan ID</th>
+            <th>Amount</th>
+            <th>Collateral</th>
+            <th>Status</th>
+            <th>EMI Auto-Debit</th>
+            <th>Default</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Vikram Singh</strong><br><small>vikram.s@vix.com</small></td>
+            <td>#MRG-82741</td>
+            <td>₹4,80,000</td>
+            <td>₹12.2 L (HDFC Bank)</td>
+            <td><span class="status pending">Pending</span></td>
+            <td>—</td>
+            <td>No</td>
+            <td><button class="btn btn-approve">Approve</button></td>
+          </tr>
+          <tr>
+            <td><strong>Neha Gupta</strong><br><small>+91 98234 56789</small></td>
+            <td>#MRG-82739</td>
+            <td>₹2,15,000</td>
+            <td>₹6.8 L (ICICI Bank)</td>
+            <td><span class="status approved">Approved</span></td>
+            <td>Active</td>
+            <td>No</td>
+            <td><button class="btn btn-close">Close Loan</button></td>
+          </tr>
+          <tr>
+            <td><strong>Rahul Malhotra</strong><br><small>rahul.m@vix.com</small></td>
+            <td>#MRG-82735</td>
+            <td>₹7,50,000</td>
+            <td>₹18.4 L (Axis Bank)</td>
+            <td><span class="status sent">Funds Sent</span></td>
+            <td>Active</td>
+            <td>No</td>
+            <td><button class="btn btn-flag">Flag High-Risk</button></td>
+          </tr>
+          <tr>
+            <td><strong>Ananya Reddy</strong><br><small>ananya.r@vix.com</small></td>
+            <td>#MRG-82720</td>
+            <td>₹1,90,000</td>
+            <td>₹5.1 L (Kotak)</td>
+            <td><span class="status repaid">Repaid</span></td>
+            <td>Completed</td>
+            <td>No</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>Siddharth Jain</strong><br><small>sidd.jain@vix.com</small></td>
+            <td>#MRG-82698</td>
+            <td>₹3,20,000</td>
+            <td>₹8.9 L (SBI)</td>
+            <td><span class="status default">Default</span></td>
+            <td>Failed ×3</td>
+            <td>Yes</td>
+            <td><button class="btn btn-flag">Flag High-Risk</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

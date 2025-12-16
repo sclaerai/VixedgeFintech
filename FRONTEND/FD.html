@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fixed Deposits – VIXEDGE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:14px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { font-size:1.6rem; color:#888; cursor:pointer; transition:0.3s; }
+    .back-btn:hover { color:#00ffff; }
+    .page-title { font-size:1.6rem; font-weight:700; color:#00ffff; }
+
+    .header-right {
+      display:flex; align-items:center; gap:18px;
+    }
+    .vixai-logo {
+      font-size:1.7rem; font-weight:900; color:#00ffff;
+    }
+    .header-icons i {
+      font-size:1.5rem; color:#888; cursor:pointer; transition:0.4s;
+    }
+    .header-icons i:hover {
+      color:#00ffff; transform:scale(1.2);
+    }
+
+    main { flex:1; padding:80px 20px 200px; max-width:1200px; margin:0 auto; width:100%; }
+
+    /* Neon Hover Card */
+    .neon-card {
+      background:linear-gradient(135deg,#0a0a0a,#1a1a1a);
+      border:1px solid #222; border-radius:20px; padding:28px;
+      margin-bottom:24px; position:relative; overflow:hidden;
+      transition:all 0.45s cubic-bezier(0.23,1,0.32,1);
+    }
+    .neon-card::before {
+      content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+      background:linear-gradient(135deg,transparent,rgba(0,255,255,0.12),transparent);
+      transform:rotate(30deg); opacity:0; transition:opacity 0.6s;
+    }
+    .neon-card:hover {
+      transform:translateY(-12px) scale(1.02);
+      border-color:#00ffff;
+      box-shadow:0 20px 50px rgba(0,255,255,0.3);
+    }
+    .neon-card:hover::before { opacity:1; }
+
+    /* FD Providers Carousel */
+    .fd-carousel {
+      display:flex; overflow-x:auto; gap:20px; padding:10px 0; scrollbar-width:none;
+    }
+    .fd-carousel::-webkit-scrollbar { display:none; }
+    .fd-tile {
+      min-width:280px; background:#111; border-radius:20px; padding:24px;
+      text-align:center; border:1px solid #333; transition:0.4s;
+    }
+    .fd-tile:hover { border-color:#00ffff; transform:translateY(-8px); }
+    .fd-logo { width:80px; height:80px; background:#222; border-radius:16px; margin:0 auto 16px; }
+    .fd-rate { font-size:2.4rem; color:#00ff88; font-weight:900; margin:12px 0; }
+    .fd-badge { background:#00ff8833; color:#00ff88; padding:padding:6px 16px; border-radius:50px; font-size:0.9rem; }
+
+    /* Featured FD Banner */
+    .featured-fd {
+      background:linear-gradient(135deg,#0f0f0f,#1f1f1f);
+      border:3px solid #00ff8833; border-radius:24px;
+      padding:40px; text-align:center; margin:30px 0;
+    }
+    .featured-rate { font-size:5rem; color:#00ff88; font-weight:900; text-shadow:0 0 40px #00ff88; }
+
+    /* Rate Comparison Table */
+    .rate-table {
+      width:100%; border-collapse:collapse; margin:30px 0;
+    }
+    .rate-table th, .rate-table td {
+      padding:16px; text-align:left; border-bottom:1px solid #333;
+    }
+    .rate-table th { color:#00ffff; }
+    .rate-table .rate { color:#00ff88; font-weight:900; }
+
+    /* Filters */
+    .filters {
+      background:#111; border-radius:20px; padding:28px; margin:30px 0;
+    }
+    .filter-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;
+    }
+    select, input[type=range] {
+      padding:14px; background:#000; border:1px solid #444; border-radius:12px; color:#fff;
+    }
+
+    /* AI FD Advisor */
+    .ai-advisor {
+      background:#111; border:2px solid #00ffff33; border-radius:20px; padding:32px;
+      text-align:center; margin:40px 0;
+    }
+    .ai-input {
+      width:100%; padding:16px; background:#000; border:1px solid #444; border-radius:12px;
+      color:#fff; font-size:1.1rem; margin:16px 0;
+    }
+
+    /* FIXED CTA — BUTTONS NOW PERFECTLY ALIGNED */
+    .cta-fixed {
+      position:fixed; bottom:80px; left:0; right:0;
+      display:flex; gap:16px; padding:20px;
+      background:rgba(0,0,0,0.95); border-top:1px solid #1a1a1a;
+      backdrop-filter:blur(20px); z-index:999;
+    }
+    .btn-cta {
+      flex:1; padding:24px 20px; border:none; border-radius:16px;
+      font-family:'Orbitron'; font-weight:900; font-size:1.4rem; cursor:pointer;
+      height:72px; /* Forces equal height */
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      line-height:1.3;
+    }
+    .btn-normal { background:#fff; color:#000; }
+    .btn-margin { background:#00ffff; color:#000; }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px);
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.7rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.78rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="back-btn" onclick="history.back()">Back</div>
+    <div class="page-title">Fixed Deposits (FDs)</div>
+    <div class="header-right">
+     <div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>
+      <div class="header-icons">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 2. FD Providers Carousel -->
+    <h2 style="color:#00ffff; margin:40px 0 20px;">Top FD Providers</h2>
+    <div class="fd-carousel">
+      <div class="fd-tile"><div class="fd-logo"></div><div>SBI FD</div><div class="fd-rate">7.50%</div><div>1–5 yrs</div><div class="fd-badge">AAA</div></div>
+      <div class="fd-tile"><div class="fd-logo"></div><div>HDFC FD</div><div class="fd-rate">7.75%</div><div>1–10 yrs</div><div class="fd-badge">AAA</div></div>
+      <div class="fd-tile"><div class="fd-logo"></div><div>ICICI FD</div><div class="fd-rate">7.60%</div><div>1–5 yrs</div><div class="fd-badge">AAA</div></div>
+      <div class="fd-tile"><div class="fd-logo"></div><div>Bajaj Finance</div><div class="fd-rate">8.85%</div><div>1–5 yrs</div><div class="fd-badge">AAA</div></div>
+      <div class="fd-tile"><div class="fd-logo"></div><div>AU Small Bank</div><div class="fd-rate">8.50%</div><div>1–5 yrs</div><div class="fd-badge">AAA</div></div>
+    </div>
+
+    <!-- 3. Featured FD Banner -->
+    <div class="neon-card featured-fd">
+      <h2>Bajaj Finance FD</h2>
+      <div class="featured-rate">8.85% p.a.</div>
+      <div style="margin:16px 0; color:#00ff88; font-size:1.4rem;">Highest Safe Return • AAA Rated</div>
+      <p>Minimum Investment: ₹10,000</p>
+      <button style="margin-top:20px; padding:16px 40px; background:#00ffff; color:#000; border:none; border-radius:14px; font-weight:900;">
+        Invest Now
+      </button>
+    </div>
+
+    <!-- 4. Rate Comparison Table -->
+    <h2 style="color:#00ffff; margin:40px 0 20px;">Compare Rates</h2>
+    <table class="rate-table">
+      <tr><th>Provider</th><th>Interest Rate</th><th>Tenure</th><th>Min Deposit</th></tr>
+      <tr><td>SBI</td><td class="rate">7.50%</td><td>1–5 yrs</td><td>₹1,000</td></tr>
+      <tr><td>HDFC</td><td class="rate">7.75%</td><td>1–10 yrs</td><td>₹5,000</td></tr>
+      <tr><td>ICICI</td><td class="rate">7.60%</td><td>1–5 yrs</td><td>₹5,000</td></tr>
+      <tr><td>Bajaj Finance</td><td class="rate">8.85%</td><td>1–5 yrs</td><td>₹10,000</td></tr>
+    </table>
+
+    <!-- 5. Filters -->
+    <div class="neon-card filters">
+      <h3 style="color:#00ffff; margin-bottom:20px;">Filter FDs</h3>
+      <div class="filter-grid">
+        <select><option>Rating: AAA only</option></select>
+        <select><option>Tenure: 1–3 years</option></select>
+        <select><option>Payout: Monthly</option></select>
+        <input type="range" min="1000" max="200000" value="10000">
+      </div>
+      <button style="margin-top:20px; padding:14px 40px; background:#00ffff; color:#000; border:none; border-radius:12px; font-weight:900;">
+        Apply Filters
+      </button>
+    </div>
+
+    <!-- 9. AI FD Advisor -->
+    <div class="neon-card ai-advisor">
+      <h3 style="color:#00ffff;">Ask FD Advisor</h3>
+      <input type="text" class="ai-input" placeholder="e.g. Best FD for 1 year with monthly payout">
+    </div>
+  </main>
+
+  <!-- FIXED CTA — BUTTONS NOW SAME HEIGHT -->
+  <div class="cta-fixed">
+    <button class="btn-cta btn-normal">Invest Normally</button>
+    <button class="btn-cta btn-margin">Credit Card with FD</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+</body>
+</html>

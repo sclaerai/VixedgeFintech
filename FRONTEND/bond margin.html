@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply with Margin – 7.26% REC 2032</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; }
+    .back-btn:hover { color:#00ffff; }
+
+    .page-title { 
+      font-size:1.6rem; font-weight:700; color:#00ffff;
+    }
+
+    .header-right {
+      display:flex; align-items:center; gap:18px;
+    }
+    .vixai-logo {
+      font-size:1.7rem; font-weight:900; color:#00ffff;
+    }
+    .header-icons i {
+      font-size:1.5rem; color:#888; cursor:pointer; transition:0.4s;
+    }
+    .header-icons i:hover {
+      color:#00ffff; transform:scale(1.2);
+    }
+
+    main { flex:1; padding:90px 20px 140px; max-width:900px; margin:0 auto; width:100%; }
+
+    .bond-header {
+      background:linear-gradient(135deg,#0f0f0f,#1f1f1f);
+      border:2px solid #00ff8833; border-radius:20px;
+      padding:28px; text-align:center; margin-bottom:32px;
+    }
+    .bond-name { font-size:2.2rem; font-weight:900; color:#00ffff; }
+    .bond-yield { font-size:3.5rem; color:#00ff88; margin:16px 0; text-shadow:0 0 40px #00ff88; }
+
+    .eligibility {
+      background:#111; border:2px solid #00ff8833; border-radius:16px;
+      padding:24px; text-align:center; margin-bottom:30px;
+    }
+    .limit-big { font-size:2.6rem; font-weight:900; color:#00ff88; margin:12px 0; }
+
+    .slider-box {
+      background:#111; border-radius:16px; padding:36px; margin:30px 0;
+      border:2px solid #00ffff22; text-align:center;
+    }
+    .slider-title { font-size:1.6rem; color:#00ffff; margin-bottom:24px; }
+    input[type=range] {
+      -webkit-appearance:none; width:100%; height:14px; background:#222; border-radius:14px;
+      outline:none; margin:30px 0;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance:none; width:50px; height:50px; background:#00ffff;
+      border-radius:50%; cursor:pointer; box-shadow:0 0 40px #00ffff;
+    }
+    .amount-display {
+      font-size:3rem; font-weight:900; color:#00ffff; margin:20px 0;
+    }
+    .lots-info { font-size:1.3rem; color:#aaa; }
+
+    .cost-preview {
+      background:#111; border-radius:16px; padding:28px; margin:30px 0;
+      border:2px solid #00ffff33;
+    }
+    .cost-row {
+      display:flex; justify-content:space-between; padding:14px 0;
+      border-bottom:1px solid #333; font-size:1.2rem;
+    }
+    .cost-row:last-child { border:none; font-size:1.6rem; font-weight:900; color:#00ff88; }
+
+    .risk-warning {
+      background:#ff000011; border:1px solid #ff446644; border-radius:16px;
+      padding:24px; margin:30px 0; color:#ff8888; line-height:1.8; font-size:1rem;
+    }
+
+    .final-btn {
+      width:100%; padding:24px; background:#00ffff; color:#000;
+      border:none; border-radius:16px; font-family:'Orbitron'; font-weight:900;
+      font-size:1.6rem; letter-spacing:0.12em; cursor:pointer;
+      transition:all 0.4s; margin-top:20px 0;
+    }
+    .final-btn:hover {
+      background:#00cccc; box-shadow:0 0 70px rgba(0,255,255,0.8); transform:scale(1.03);
+    }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px);
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.7rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.78rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="back-btn" onclick="history.back()">Back</div>
+    
+    <div class="page-title">Apply with Margin</div>
+
+    <!-- VIXAI + Bell + Search Icons -->
+    <div class="header-right">
+     <div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>
+      <div class="header-icons">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. Bond Name & Yield -->
+    <div class="bond-header">
+      <div class="bond-name">7.26% REC 2032</div>
+      <div class="bond-yield">7.26%</div>
+      <p style="color:#aaa; margin-top:16px;">Investment: <strong>₹1,00,000</strong> (100 units)</p>
+    </div>
+
+    <!-- 2. Max Margin Available -->
+    <div class="eligibility">
+      <div>Your Available Margin Limit</div>
+      <div class="limit-big">₹1,50,000</div>
+      <div style="margin-top:12px; color:#00ff88;">You can use up to <strong>₹80,000</strong> margin on this bond</div>
+    </div>
+
+    <!-- 3. User Contribution Slider -->
+    <div class="slider-box">
+      <div class="slider-title">How much do YOU want to pay?</div>
+      <input type="range" min="20000" max="100000" step="10000" value="30000" id="userPay">
+      <div class="amount-display" id="userAmount">₹30,000</div>
+      <div class="lots-info">Margin Used: <span id="marginUsed">₹70,000</span></div>
+    </div>
+
+    <!-- 4. Cost Preview -->
+    <div class="cost-preview">
+      <div class="cost-row">
+        <span>Total Bond Value</span>
+        <span>₹1,00,000</span>
+      </div>
+      <div class="cost-row">
+        <span>You Pay Now</span>
+        <span id="payNow">₹30,000</span>
+      </div>
+      <div class="cost-row">
+        <span>Margin Used</span>
+        <span id="marginAmount">₹70,000</span>
+      </div>
+      <div class="cost-row">
+        <span>Processing Fee</span>
+        <span id="fee">₹350</span>
+      </div>
+      <div class="cost-row">
+        <span>Interest (15 days @ 10% p.a.)</span>
+        <span id="interest">₹288</span>
+      </div>
+      <div class="cost-row">
+        <span><strong>Total Repayable</strong></span>
+        <span id="totalRepay">₹70,638</span>
+      </div>
+    </div>
+
+    <!-- 5. Risk Warning -->
+    <div class="risk-warning">
+      <strong>Important:</strong> Margin is locked until maturity or early redemption. Interest is charged daily.
+      If bond price falls, additional margin may be required. Auto-repayment after settlement.
+    </div>
+
+    <!-- 6. Final Button -->
+    <button class="final-btn" onclick="proceedToESign()">
+      Agree & Apply with Margin
+    </button>
+  </main>
+
+  <!-- Footer – Only 3 Icons -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+  <script>
+    const TOTAL_PRICE = 100000;
+    const MAX_MARGIN = 80000;
+
+    const slider = document.getElementById('userPay');
+    const userAmount = document.getElementById('userAmount');
+    const marginUsed = document.getElementById('marginUsed');
+    const payNow = document.getElementById('payNow');
+    const marginAmount = document.getElementById('marginAmount');
+    const fee = document.getElementById('fee');
+    const interest = document.getElementById('interest');
+    const totalRepay = document.getElementById('totalRepay');
+
+    slider.addEventListener('input', function() {
+      const userPay = parseInt(this.value);
+      const margin = TOTAL_PRICE - userPay;
+
+      userAmount.textContent = `₹${userPay.toLocaleString()}`;
+      marginUsed.textContent = `₹${margin.toLocaleString()}`;
+      payNow.textContent = `₹${userPay.toLocaleString()}`;
+      marginAmount.textContent = `₹${margin.toLocaleString()}`;
+
+      const procFee = Math.ceil(margin / 1000) * 5;
+      const dailyInt = (margin * 0.10 / 365).toFixed(2);
+      const totalInt = (dailyInt * 15).toFixed(0); // 15 days avg
+      const total = margin + procFee + parseInt(totalInt);
+
+      fee.textContent = `₹${procFee}`;
+      interest.textContent = `₹${totalInt}`;
+      totalRepay.textContent = `₹${total.toLocaleString()}`;
+    });
+
+    function proceedToESign() {
+      const userPay = document.getElementById('userAmount').textContent;
+      const repay = document.getElementById('totalRepay').textContent;
+      alert(`Proceeding to Aadhaar e-Sign...\nYou pay now: ${userPay}\nRepay later: ${repay}`);
+      // window.location.href = "esign.html";
+    }
+  </script>
+</body>
+</html>

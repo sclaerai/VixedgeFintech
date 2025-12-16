@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE NBFC | Loan Book / Exposure</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Phosphor Icons (same as Dashboard) -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    :root {
+      --mint-light: #E4F2EF;
+      --sage-medium: #7AA893;
+      --deep-teal: #244F48;
+      --gold: #D0B060;
+      --soft-white: #F9FAF8;
+      --light-grey: #D9E0DF;
+      --charcoal: #1F1F1F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--mint-light);
+      color: var(--charcoal);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ===== SAME SIDEBAR WITH ICONS (EXACTLY AS DASHBOARD) ===== */
+    .sidebar {
+      width: 280px;
+      background: var(--deep-teal);
+      color: white;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      padding: 24px 0;
+      box-shadow: 4px 0 20px rgba(36,79,72,0.2);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    .sidebar .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+      text-align: center;
+      padding: 0 20px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 30px;
+    }
+    .nav-item {
+      padding: 16px 28px;
+      font-size: 15px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.1); }
+    .nav-item.active, .nav-item:nth-child(4) { /* Loan Book is 4th item */
+      background: var(--gold);
+      color: white;
+      font-weight: 600;
+    }
+    .nav-item i { width: 24px; height: 24px; }
+
+    /* Main Content */
+    .main-content { margin-left: 280px; flex: 1; }
+    .header {
+      background: var(--deep-teal);
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      box-shadow: 0 4px 20px rgba(36,79,72,0.2);
+    }
+    .page-title {
+      padding: 32px 40px 8px;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--deep-teal);
+    }
+    .container { padding: 0 40px 40px; max-width: 1600px; margin: 0 auto; }
+
+    /* === EVERYTHING BELOW IS 100% UNCHANGED FROM YOUR ORIGINAL === */
+    .filters {
+      background: var(--soft-white);
+      padding: 20px 24px;
+      border-radius: 16px;
+      margin: 16px 0;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(36,79,72,0.06);
+      border: 1px solid var(--light-grey);
+    }
+    .filters select, .filters input {
+      padding: 10px 14px;
+      border: 1.5px solid var(--light-grey);
+      border-radius: 10px;
+      font-size: 14px;
+      min-width: 180px;
+    }
+    .table-card {
+      background: var(--soft-white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--light-grey);
+      box-shadow: 0 8px 30px rgba(36,79,72,0.1);
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: var(--deep-teal);
+      color: white;
+      padding: 18px 16px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 16px;
+      border-bottom: 1px solid var(--light-grey);
+      font-size: 14.5px;
+    }
+    tr:hover { background: #f8fbf9; }
+
+    .risk-a { color: var(--sage-medium); font-weight: 700; }
+    .risk-b { color: #D97706; font-weight: 700; }
+    .risk-c { color: #C53030; font-weight: 700; }
+    .delayed-0 { color: var(--sage-medium); }
+    .delayed-low { color: #D97706; }
+    .delayed-high { color: #C53030; font-weight: 600; }
+    .collateral-safe { color: var(--sage-medium); font-weight: 600; }
+    .collateral-warning { color: #D97706; font-weight: 600; }
+    .collateral-critical { color: #C53030; font-weight: 600; }
+
+    .btn-view {
+      background: linear-gradient(90deg, #D0B060, #C9A652);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-view:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(208,176,96,0.3); }
+  </style>
+</head>
+<body>
+
+  <!-- SAME SIDEBAR WITH ICONS -->
+  <div class="sidebar">
+    <div class="logo">VIXEDGE NBFC</div>
+
+   <div class="nav-item  " onclick="window.location.href='dashboard.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-gauge"></i>
+      <span>Dashboard</span>
+    </div>
+   <div class="nav-item" onclick="window.location.href='loan request.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-file-text"></i>
+      <span>Loan Requests</span>
+    </div>
+    <div class="nav-item active" onclick="window.location.href='loan kitab.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-book-open"></i>
+      <span>Loan Book</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='rpymnt.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-arrow-circle-down"></i>
+      <span>Repayments</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='settlement n disbursement.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-arrows-clockwise"></i>
+      <span>Settlement</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='user.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-users"></i>
+      <span>Users</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT – 100% UNCHANGED -->
+  <div class="main-content">
+    <div class="header">
+      <div style="display:flex;align-items:center;gap:12px;color:white;">
+        <span>Welcome, Partner Admin</span>
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">PA</div>
+      </div>
+    </div>
+
+    <div class="page-title">Loan Book / Exposure</div>
+
+    <div class="container">
+      <div class="filters">
+        <select>
+          <option>Product Type: All</option>
+          <option>IPO Margin</option>
+          <option>Pledge</option>
+          <option>Credit Limit</option>
+        </select>
+        <select>
+          <option>Risk Tier: All</option>
+          <option>A</option>
+          <option>B</option>
+          <option>C</option>
+        </select>
+        <select>
+          <option>Status: All</option>
+          <option>Active</option>
+          <option>Overdue</option>
+          <option>NPA</option>
+        </select>
+        <input type="text" placeholder="Search by User Name / Loan ID">
+      </div>
+
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Loan ID</th>
+              <th>User Name</th>
+              <th>Product Type</th>
+              <th>Principal</th>
+              <th>Outstanding</th>
+              <th>EMI / Due Date</th>
+              <th>Delayed Days</th>
+              <th>Risk Tier</th>
+              <th>Collateral Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>LN100845</strong></td>
+              <td>Rahul Sharma</td>
+              <td>IPO Margin</td>
+              <td>₹45,000</td>
+              <td>₹32,500</td>
+              <td>₹4,200 / 12 Dec</td>
+              <td class="delayed-0">0 days</td>
+              <td class="risk-a">A</td>
+              <td class="collateral-safe">Safe (LTV 65%)</td>
+              <td><button class="btn-view">View</button></td>
+            </tr>
+            <tr>
+              <td><strong>LN100846</strong></td>
+              <td>Priya Mehta</td>
+              <td>Pledge</td>
+              <td>₹68,000</td>
+              <td>₹51,000</td>
+              <td>₹6,800 / 08 Dec</td>
+              <td class="delayed-low">4 days</td>
+              <td class="risk-b">B</td>
+              <td class="collateral-warning">Monitor (LTV 80%)</td>
+              <td><button class="btn-view">View</button></td>
+            </tr>
+            <tr>
+              <td><strong>LN100847</strong></td>
+              <td>Akash Verma</td>
+              <td>Credit Limit</td>
+              <td>₹35,000</td>
+              <td>₹18,000</td>
+              <td>Interest Only</td>
+              <td class="delayed-0">0 days</td>
+              <td class="risk-a">A</td>
+              <td class="collateral-safe">Safe</td>
+              <td><button class="btn-view">View</button></td>
+            </tr>
+            <tr>
+              <td><strong>LN100848</strong></td>
+              <td>Sneha Kapoor</td>
+              <td>Pledge</td>
+              <td>₹62,500</td>
+              <td>₹62,500</td>
+              <td>₹7,100 / 02 Dec</td>
+              <td class="delayed-high">10 days</td>
+              <td class="risk-c">C</td>
+              <td class="collateral-critical">Alert (LTV 91%)</td>
+              <td><button class="btn-view">View</button></td>
+            </tr>
+            <tr>
+              <td><strong>LN100849</strong></td>
+              <td>Vikram Singh</td>
+              <td>IPO Margin</td>
+              <td>₹52,000</td>
+              <td>₹38,000</td>
+              <td>₹5,200 / 18 Dec</td>
+              <td class="delayed-0">0 days</td>
+              <td class="risk-a">A</td>
+              <td class="collateral-safe">Safe</td>
+              <td><button class="btn-view">View</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

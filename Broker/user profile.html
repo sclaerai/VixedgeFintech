@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE | User Profile – Aarav Gupta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --blue-primary: #0A3D62;
+      --blue-accent: #1E90FF;
+      --blue-light: #E6F0FA;
+      --blue-hover: #145A8C;
+      --sidebar-width: 280px;
+      --gray-dark: #2D3748;
+      --gray-medium: #64748B;
+      --gray-light: #F8FAFC;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--blue-light);
+      color: var(--gray-dark);
+      min-height: 100vh;
+    }
+
+    /* Sidebar (unchanged) */
+    .sidebar {
+      position: fixed; left: 0; top: 0; bottom: 0;
+      width: var(--sidebar-width);
+      background: var(--blue-primary);
+      color: white;
+      padding: 24px 0;
+      z-index: 1000;
+    }
+    .sidebar-header { padding: 0 32px 32px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .logo-text { font-size: 32px; font-weight: 800; letter-spacing: -1px;
+      background: linear-gradient(90deg, #FFFFFF, #A0D8FF);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-item { padding: 14px 32px; display: flex; align-items: center; font-weight: 500; transition: all 0.25s; cursor: pointer; }
+    .nav-item i { margin-right: 12px; width: 24px; }
+    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); border-left: 4px solid var(--blue-accent); padding-left: 28px; }
+    .nav-item.active { background: rgba(30,144,255,0.15); font-weight: 600; }
+
+    /* Main Content */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      padding: 32px;
+    }
+
+    .top-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 32px; background: white; padding: 18px 28px;
+      border-radius: 14px; box-shadow: 0 4px 15px rgba(10,61,98,0.08);
+    }
+    .page-title { font-size: 26px, font-weight: 700; color: var(--blue-primary); }
+    .btn-back { background: var(--blue-primary); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 992px) { .profile-grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 8px 25px rgba(10,61,98,0.1);
+      border: 1px solid rgba(10,61,98,0.08);
+    }
+    .card h3 {
+      font-size: 18px; font-weight: 700; color: var(--blue-primary);
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 2px solid var(--blue-light);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 16px 24px;
+      font-size: 15px;
+    }
+    .info-label { font-weight: 600; color: var(--gray-medium); }
+    .info-value { color: var(--gray-dark); font-weight: 500; }
+    .status-yes { color: var(--success); font-weight: 600; }
+    .status-no  { color: var(--danger); font-weight: 600; }
+
+    /* Fixed & Aligned Document Links */
+    .doc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .doc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: var(--gray-light);
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+    .doc-item:hover {
+      background: #EDF2F7;
+      transform: translateY(-1px);
+    }
+    .doc-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+      color: var(--gray-dark);
+    }
+    .doc-actions {
+      display: flex;
+      gap: 16px;
+    }
+    .doc-actions a {
+      color: var(--blue-accent);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 4px 0;
+      transition: all 0.2s;
+    }
+    .doc-actions a:hover {
+      color: var(--blue-primary);
+      text-decoration: underline;
+    }
+
+    .mobile-menu-btn { display: none; font-size: 24px; background:none; border:none; cursor:pointer; color:var(--blue-primary); }
+    @media (max-width: 992px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.active { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .mobile-menu-btn { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar (unchanged) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-text">VIXEDGE</div>
+      <small style="opacity:0.9;">Broker Operations Panel</small>
+    </div>
+    <nav style="margin-top:32px;">
+     <div class="nav-item  " onclick="window.location.href='home.html'" style="cursor: pointer;"><i class="fas fa-home"></i> Home</div>
+      <div class="nav-item active" onclick="window.location.href='user.html'" style="cursor: pointer;"><i class="fas fa-users"></i> Users</div>
+      <div class="nav-item" onclick="window.location.href='ipo mgmt.html'" style="cursor: pointer;"><i class="fas fa-chart-line"></i> IPO</div>
+      <div class="nav-item" onclick="window.location.href='pledge.html'" style="cursor: pointer;"><i class="fas fa-hand-holding"></i> Pledge</div>
+      <div class="nav-item" onclick="window.location.href='reconciliation.html'" style="cursor: pointer;"><i class="fas fa-exchange-alt"></i> Reconciliation</div>
+      <div class="nav-item" onclick="window.location.href='reports.html'" style="cursor: pointer;"><i class="fas fa-file-alt"></i> Reports</div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="top-bar">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('active')">
+          <i class="fas fa-bars"></i>
+        </button>
+        <h1 class="page-title">User Profile – Aarav Gupta</h1>
+      </div>
+      <button class="btn-back" onclick="history.back()">
+        <i class="fas fa-arrow-left" onclick="window.location.href='user.html'" style="cursor: pointer;"></i> Back to Users
+      </button>
+    </div>
+
+    <div class="profile-grid">
+
+      <!-- Basic Info (unchanged) -->
+      <div class="card">
+        <h3><i class="fas fa-user-circle"></i> Basic Information</h3>
+        <div class="info-grid">
+          <div class="info-label">Full Name</div><div class="info-value">Aarav Gupta</div>
+          <div class="info-label">Phone</div><div class="info-value">+91 98765 43210</div>
+          <div class="info-label">PAN</div><div class="info-value">BGCPG1234K</div>
+          <div class="info-label">Aadhaar</div><div class="info-value">XXXX-XXXX-5678</div>
+          <div class="info-label">Date of Birth</div><div class="info-value">14 Mar 1992</div>
+          <div class="info-label">Address</div><div class="info-value">B-1202, Lodha Bellissimo, NM Joshi Marg, Lower Parel, Mumbai – 400013</div>
+        </div>
+      </div>
+
+      <!-- Broker Account Status (unchanged) -->
+      <div class="card">
+        <h3><i class="fas fa-building"></i> Broker Account Status</h3>
+        <div class="info-grid">
+          <div class="info-label">KYC Verified</div><div class="info-value status-yes">Yes</div>
+          <div class="info-label">Trading Account</div><div class="info-value status-yes">Active</div>
+          <div class="info-label">Depository</div><div class="info-value">CDSL – IN304295</div>
+          <div class="info-label">Mandate Status</div><div class="info-value status-yes">Active (₹5,00,000 limit)</div>
+        </div>
+      </div>
+
+      <!-- Activity Summary (unchanged) -->
+      <div class="card">
+        <h3><i class="fas fa-chart-line"></i> Activity Summary</h3>
+        <div class="info-grid">
+          <div class="info-label">Total IPOs Applied</div><div class="info-value">28 (Success rate: 82%)</div>
+          <div class="info-label">Total Margin Taken</div><div class="info-value">₹87.4 Lakh</div>
+          <div class="info-label">Current Pledge Positions</div><div class="info-value">₹42.8 Lakh (14 scrips)</div>
+          <div class="info-label">Outstanding Repayment</div><div class="info-value">₹8.2 Lakh (Due in 3 days)</div>
+        </div>
+      </div>
+
+      <!-- Documents & Agreements – Perfectly Aligned -->
+      <div class="card">
+        <h3><i class="fas fa-file-alt"></i> Documents & Agreements</h3>
+        <div class="doc-list">
+          <div class="doc-item">
+            <div class="doc-name"><i class="fas fa-file-pdf"></i> PAN Card</div>
+            <div class="doc-actions">
+              <a href="#">View</a><span style="color:#CBD5E0; margin:0 8px;">|</span><a href="#">Download</a>
+            </div>
+          </div>
+          <div class="doc-item">
+            <div class="doc-name"><i class="fas fa-id-card"></i> Aadhaar (e-Signed)</div>
+            <div class="doc-actions">
+              <a href="#">View</a><span style="color:#CBD5E0; margin:0 8px;">|</span><a href="#">Download</a>
+            </div>
+          </div>
+          <div class="doc-item">
+            <div class="doc-name"><i class="fas fa-file-signature"></i> e-Sign Agreement (IPv4)</div>
+            <div class="doc-actions">
+              <a href="#">View Log</a>
+            </div>
+          </div>
+          <div class="doc-item">
+            <div class="doc-name"><i class="fas fa-file-contract"></i> Margin Pledge Authorization</div>
+            <div class="doc-actions">
+              <a href="#">View</a><span style="color:#CBD5E0; margin:0 8px;">|</span><a href="#">Download</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</body>
+</html>

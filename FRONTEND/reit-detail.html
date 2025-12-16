@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mindspace Business Parks REIT – VIXEDGE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { 
+      font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; 
+    }
+    .back-btn:hover { color:#00ffff; }
+
+    .page-title { 
+      font-size:1.6rem; font-weight:700; color:#00ffff; 
+    }
+
+    .header-right {
+      display:flex; align-items:center; gap:18px;
+    }
+    .vixai-logo {
+      font-size:1.7rem; font-weight:900; color:#00ffff;
+    }
+    .header-icons i {
+      font-size:1.5rem; color:#888; cursor:pointer; transition:0.4s;
+    }
+    .header-icons i:hover {
+      color:#00ffff; transform:scale(1.2);
+    }
+
+    main { flex:1; padding:90px 20px 140px; max-width:1000px; margin:0 auto; width:100%; }
+
+    /* 2. REIT Banner */
+    .reit-banner {
+      background:linear-gradient(135deg,#0f0f0f,#1f1f1f);
+      border:2px solid #00ffff33; border-radius:24px;
+      padding:40px 30px; text-align:center; margin-bottom:32px;
+    }
+    .reit-name { font-size:2.6rem; font-weight:900; color:#00ffff; margin:12px 0; }
+    .reit-ticker { font-size:1.4rem; color:#00ff88; margin-bottom:20px; }
+    .reit-category { color:#ffaa00; font-size:1.2rem; margin:16px 0; }
+    .reit-yield { font-size:4rem; font-weight:900; color:#00ff88; margin:20px 0; text-shadow:0 0 50px #00ff88; }
+    .live-price {
+      font-size:2rem; color:#00ff88; font-weight:900;
+    }
+
+    /* 3. Summary Bar */
+    .summary-grid {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:30px 0;
+    }
+    @media (max-width:768px) { .summary-grid { grid-template-columns:1fr; } }
+    .summary-card {
+      background:#111; border:1px solid #00ffff22; border-radius:16px;
+      padding:24px; text-align:center; cursor:pointer; transition:0.4s;
+    }
+    .summary-card:hover { border-color:#00ffff; transform:translateY(-6px); }
+    .summary-label { color:#888; font-size:0.95rem; }
+    .summary-value { font-size:2rem; font-weight:900; color:#00ff88; margin:8px 0; }
+
+    /* 4. About Section */
+    .card {
+      background:linear-gradient(135deg,#0a0a0a,#1a1a1a);
+      border:1px solid #222; border-radius:16px; padding:28px; margin-bottom:24px;
+      transition:0.45s;
+    }
+    .card:hover { border-color:#00ffff; transform:translateY(-6px); }
+
+    /* 5. Financial Performance */
+    .metrics-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin:30px 0;
+    }
+    .metric-card {
+      background:#111; border-radius:16px; padding:20px; text-align:center;
+    }
+    .metric-value { font-size:2rem; font-weight:900; color:#00ff88; }
+    .metric-label { color:#aaa; font-size:0.9rem; margin-top:8px; }
+
+    /* 7. Risk Factors */
+    .risk-list {
+      background:#ff000011; border:1px solid #ff446644; border-radius:16px;
+      padding:24px; line-height:2; color:#ff8888;
+    }
+
+    /* 10. Eligibility */
+    .eligibility {
+      background:#111; border:2px solid #00ff8833; border-radius:20px;
+      padding:32px; text-align:center; margin:40px 0;
+    }
+    .eligibility-big { font-size:2.8rem; color:#00ff88; font-weight:900; margin:12px 0; }
+
+    /* 11. Apply Buttons */
+    .apply-grid {
+      display:flex; gap:20px; margin:40px 0;
+    }
+    .btn-apply {
+      flex:1; padding:22px; border:none; border-radius:16px;
+      font-family:'Orbitron'; font-weight:900; font-size:1.3rem; cursor:pointer;
+      transition:0.4s;
+    }
+    .btn-normal { background:#fff; color:#000; }
+    .btn-margin { background:#00ffff; color:#000; }
+    .btn-normal:hover { background:#ddd; }
+    .btn-margin:hover { background:#00cccc; box-shadow:0 0 60px rgba(0,255,255,0.7); transform:scale(1.05); }
+
+    .faq { margin:40px 0; line-height:2.2; color:#ddd; }
+    .faq h3 { color:#00ffff; margin:30px 0 16px; }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px);
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.7rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.78rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <!-- BACK BUTTON -->
+    <div class="back-btn" onclick="history.back()">Back</div>
+    
+    <!-- PAGE TITLE -->
+    <div class="page-title">REIT Details</div>
+
+    <!-- VIXAI + BELL + SEARCH -->
+    <div class="header-right">
+     <div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>
+      <div class="header-icons">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 2. REIT Banner -->
+    <div class="reit-banner">
+      <div class="reit-name">Mindspace Business Parks REIT</div>
+      <div class="reit-ticker">MINDSPACE-REIT</div>
+      <div class="reit-category">Commercial Office • Grade-A</div>
+      <div style="margin:20px 0; font-size:1.3rem; color:#ffdd00;">4.8 stars</div>
+      <div class="reit-yield">7.8%</div>
+      <div style="margin:12px 0; color:#aaa;">Last 12M Distribution Yield</div>
+      <div class="live-price">₹378.50 <span style="color:#00ff88;">+1.2%</span></div>
+    </div>
+
+    <!-- 3. Summary Bar -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Min Investment</div>
+        <div class="summary-value">₹10,000</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Yield (TTM)</div>
+        <div class="summary-value">7.5%</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Distribution</div>
+        <div class="summary-value">Quarterly</div>
+      </div>
+    </div>
+
+    <!-- 4. About -->
+    <div class="card">
+      <h3 style="color:#00ffff; margin-bottom:20px;">About this REIT</h3>
+      <p>Mindspace Business Parks REIT owns 33.1 mn sq.ft. of premium Grade-A office space across Hyderabad, Mumbai, Pune & Chennai.</p>
+      <p>Portfolio occupancy: 88.4% | WALE: 6.8 years | 90%+ revenue from MNCs & Fortune 500 companies.</p>
+      <button style="margin-top:20px; padding:14px 32px; background:#00ffff; color:#000; border:none; border-radius:12px; font-weight:900; cursor:pointer;">
+        View Full Research Report
+      </button>
+    </div>
+
+    <!-- 5. Financial Performance -->
+    <h3 style="color:#00ffff; margin:40px 0 20px;">Performance & Stability</h3>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-value">₹368</div>
+        <div class="metric-label">Current NAV</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">88.4%</div>
+        <div class="metric-label">Occupancy</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">6.8 yrs</div>
+        <div class="metric-label">WALE</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">+12.3%</div>
+        <div class="metric-label">Revenue Growth</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">89%</div>
+        <div class="metric-label">NOI Margin</div>
+      </div>
+    </div>
+
+    <!-- 7. Risk Factors -->
+    <div class="card">
+      <h3 style="color:#ff4466; margin-bottom:20px;">What You Should Know</h3>
+      <div class="risk-list">
+        <ul>
+          <li>Interest rate risk on debt</li>
+          <li>Occupancy & rental renewal risk</li>
+          <li>Tenant concentration risk</li>
+          <li>Regulatory & taxation changes</li>
+          <li>Market price volatility</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 10. Eligibility -->
+    <div class="eligibility">
+      <div>Your Eligibility for Margin</div>
+      <div class="eligibility-big">₹3,00,000</div>
+      <div style="margin:12px 0; color:#00ff88;">Tier: <strong>Platinum</strong> • Approval Probability: <strong>High</strong></div>
+      <button style="margin-top:20px; padding:16px 40px; background:#00ffff; color:#000; border:none; border-radius:14px; font-weight:900;">
+        Check Eligibility
+      </button>
+    </div>
+
+    <!-- 11. Apply Buttons -->
+    <div class="apply-grid">
+      <button class="btn-apply btn-normal" onclick="alert('Redirecting to broker for normal purchase...')">
+        Apply Normal
+      </button>
+      <button class="btn-apply btn-margin" onclick="location.href='reit-apply-margin.html'">
+        Apply with Margin
+      </button>
+    </div>
+
+    <!-- 12. FAQ -->
+    <div class="faq">
+      <h3 style="color:#00ffff;">Frequently Asked Questions</h3>
+      <ul style="color:#aaa; line-height:2.2; margin:20px 0;">
+        <li>What is a REIT? → Real Estate Investment Trust – own fractional commercial property</li>
+        <li>How is income distributed? → 90% of rental income paid as dividend quarterly</li>
+        <li>What is NAV? → Net Asset Value per unit</li>
+        <li>Can I sell anytime? → Yes, listed on NSE/BSE</li>
+        <li>Is it better than physical property? → Yes – liquid, diversified, professionally managed</li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- Footer – Now with MARKETS (not Invest) -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+</body>
+</html>

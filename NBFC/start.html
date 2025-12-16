@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE Partner NBFC | Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --mint-light: #E4F2EF;
+      --sage-medium: #7AA893;
+      --deep-teal: #244F48;
+      --gold: #D0B060;
+      --soft-white: #F9FAF8;
+      --light-grey: #D9E0DF;
+      --charcoal: #1F1F1F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--mint-light) 0%, #DCEFE7 100%);
+      color: var(--charcoal);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .login-container {
+      background: var(--soft-white);
+      width: 100%;
+      max-width: 420px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(36, 79, 72, 0.12);
+      overflow: hidden;
+      border: 1px solid var(--light-grey);
+    }
+    .login-header {
+      background: var(--deep-teal);
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .logo-placeholder {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      background: var(--soft-white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .login-header h1 {
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .login-body {
+      padding: 40px 30px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--light-grey);
+      border-radius: 10px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--sage-medium);
+      box-shadow: 0 0 0 4px rgba(122, 168, 147, 0.15);
+    }
+    .forgot-pw {
+      text-align: right;
+      margin-bottom: 24px;
+    }
+    .forgot-pw a {
+      color: var(--sage-medium);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .forgot-pw a:hover { text-decoration: underline; }
+
+    /* OTP Section - Always Visible */
+    .otp-label {
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .otp-inputs {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .otp-inputs input {
+      width: 54px;
+      height: 58px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+      border: 1.5px solid var(--light-grey);
+      border-radius: 10px;
+    }
+    .otp-inputs input:focus {
+      border-color: var(--sage-medium);
+      box-shadow: 0 0 0 4px rgba(122, 168, 147, 0.15);
+    }
+    .resend {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    .resend a {
+      color: var(--sage-medium);
+      font-weight: 500;
+    }
+
+    /* Gold Login Button */
+    .btn-login {
+      width: 100%;
+      padding: 16px;
+      margin-top: 28px;
+      background: linear-gradient(90deg, #D0B060 0%, #C9A652 100%);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(208, 176, 96, 0.3);
+    }
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(208, 176, 96, 0.4);
+    }
+
+    .legal {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+    .legal a {
+      color: var(--sage-medium);
+      text-decoration: none;
+    }
+    .legal a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-header">
+      <div class="logo-placeholder">NBFC</div>
+      <h1>VIXEDGE Partner Portal</h1>
+    </div>
+
+    <div class="login-body">
+      <form>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="partner@yournbfc.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••••••" required />
+        </div>
+
+        <div class="forgot-pw">
+          <a href="#">Forgot Password?</a>
+        </div>
+
+        <!-- 2FA OTP - Always Visible -->
+        <div class="form-group">
+          <label class="otp-label">6-Digit OTP (sent to registered mobile)</label>
+          <div class="otp-inputs">
+            <input type="text" maxlength="1" required />
+            <input type="text" maxlength="1" required />
+            <input type="text" maxlength="1" required />
+            <input type="text" maxlength="1" required />
+            <input type="text" maxlength="1" required />
+            <input type="text" maxlength="1" required />
+          </div>
+          <div class="resend">
+            Didn’t receive? <a href="#">Resend OTP</a>
+          </div>
+        </div>
+
+<button type="submit" class="btn-login" onclick="window.location.href='dashboard.html'">Login to Dashboard</button>
+      </form>
+
+      <div class="legal">
+        By logging in, you agree to our <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>.<br/>
+        © 2025 VIXEDGE Partner NBFC. All rights reserved.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Auto-focus next OTP digit
+    document.querySelectorAll('.otp-inputs input').forEach((input, idx, inputs) => {
+      input.addEventListener('input', () => {
+        if (input.value.length === 1 && idx < inputs.length - 1) {
+          inputs[idx + 1].focus();
+        }
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && input.value === '' && idx > 0) {
+          inputs[idx - 1].focus();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

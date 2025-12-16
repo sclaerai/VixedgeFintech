@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply with Margin – Zerodha Fintech IPO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { 
+      font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; 
+    }
+    .back-btn:hover { color:#00ffff; }
+
+    .page-title { 
+      font-size:1.5rem; font-weight:700; color:#00ffff; 
+    }
+
+    .header-right {
+      display:flex; align-items:center; gap:18px;
+    }
+    .vixai-logo {
+      font-size:1.7rem; font-weight:900; color:#00ffff;
+    }
+    .header-icons i {
+      font-size:1.5rem; color:#888; cursor:pointer; transition:0.4s;
+    }
+    .header-icons i:hover {
+      color:#00ffff; transform:scale(1.2);
+    }
+
+    main { flex:1; padding:90px 20px 140px; max-width:900px; margin:0 auto; width:100%; }
+
+    .ipo-mini {
+      background:linear-gradient(135deg,#0f0f0f,#1f1f1f); border:1px solid #00ffff33;
+      border-radius:16px; padding:24px; text-align:center; margin-bottom:30px;
+    }
+    .ipo-name { font-size:2.1rem; font-weight:900; color:#00ffff; margin:8px 0; }
+    .price-band { font-size:1.4rem; margin:12px 0; }
+
+    /* GMP SENTIMENT INDICATOR */
+    .gmp-bar {
+      display:flex; align-items:center; justify-content:center; gap:12px;
+      margin:16px 0; padding:14px; background:#111; border-radius:12px;
+      border:1px solid #333;
+    }
+    .gmp-value {
+      font-size:2rem; font-weight:900;
+    }
+    .gmp-positive { color:#00ff88; }
+    .gmp-negative { color:#ff4466; }
+    .gmp-text {
+      font-size:1.1rem; color:#aaa;
+    }
+    .gmp-est {
+      margin-top:8px; font-size:1.3rem; color:#00ff88; font-weight:700;
+    }
+
+    .card { background:linear-gradient(135deg,#0a0a0a,#1a1a1a); border:1px solid #222; border-radius:16px; padding:28px; margin-bottom:24px; }
+    .eligibility-box { background:#111; border:2px solid #00ff8833; border-radius:16px; padding:24px; text-align:center; margin-bottom:30px; }
+    .limit-big { font-size:2.4rem; font-weight:900; color:#00ff88; margin:10px 0; }
+    .tier { font-size:1.3rem; color:#00ffff; }
+
+    .slider-container { background:#111; border-radius:16px; padding:32px; margin:30px 0; border:2px solid #00ffff22; }
+    .slider-label { font-size:1.4rem; margin-bottom:20px; color:#00ffff; text-align:center; }
+    input[type=range] {
+      -webkit-appearance:none; width:100%; height:12px; background:#222; border-radius:12px; outline:none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance:none; width:40px; height:40px; background:#00ffff; border-radius:50%;
+      cursor:pointer; box-shadow:0 0 30px #00ffff;
+    }
+    .slider-values { display:flex; justify-content:space-between; margin-top:12px; font-size:1.2rem; }
+    .current-lot { text-align:center; margin:20px 0; font-size:2.5rem; font-weight:900; color:#00ffff; }
+
+    .cost-breakdown { background:#111; border-radius:16px; padding:28px; margin:30px 0; border:2px solid #00ffff33; }
+    .cost-row { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #333; font-size:1.1rem; }
+    .cost-row:last-child { border:none; font-size:1.4rem; font-weight:900; color:#00ff88; }
+
+    .safety-note { background:#ff000011; border:1px solid #ff446644; border-radius:12px; padding:20px; margin:30px 0; font-size:0.95rem; color:#ff8888; line-height:1.7; }
+
+    .btn-group { display:flex; gap:16px; margin-top:40px; }
+    .btn { flex:1; padding:18px; border:none; border-radius:14px; font-family:'Orbitron'; font-weight:900; font-size:1.1rem; letter-spacing:0.1em; cursor:pointer; transition:all 0.4s; }
+    .btn-back { background:#333; color:#aaa; }
+    .btn-back:hover { background:#555; }
+    .btn-proceed { background:#00ffff; color:#000; }
+    .btn-proceed:hover { background:#00cccc; box-shadow:0 0 50px rgba(0,255,255,0.7); transform:scale(1.05); }
+
+    footer { position:fixed; bottom:0; width:100%; background:#000; border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px); }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.7rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.78rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <!-- BACK BUTTON -->
+    <div class="back-btn" onclick="history.back()">Back</div>
+    
+    <!-- PAGE TITLE -->
+    <div class="page-title">Apply with Margin</div>
+
+    <!-- VIXAI + BELL + SEARCH -->
+    <div class="header-right">
+<div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>      <div class="header-icons">
+      <div class="header-icons">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. IPO + GMP Sentiment -->
+    <div class="ipo-mini">
+      <h1 class="ipo-name">Zerodha Fintech Ltd</h1>
+      <div style="margin:10px 0;">Price Band: <strong>₹320 – ₹340</strong></div>
+      <div>Lot Size: 44 shares → <strong>₹14,960</strong></div>
+      <div style="margin:10px 0; color:#ffaa00;">Closes in <strong>11h 23m</strong></div>
+
+      <!-- GMP Indicator -->
+      <div class="gmp-bar">
+        <div>
+          <div class="gmp-value gmp-positive">+₹87</div>
+          <div class="gmp-text">Grey Market Premium</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="gmp-est">Est. Listing ≈ ₹427</div>
+          <div style="color:#00ff88; font-size:1.1rem;">+25.6% Gain Expected</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Eligibility Box -->
+    <div class="eligibility-box">
+      <div>Your Available Margin Limit</div>
+      <div class="limit-big">₹1,50,000</div>
+      <div class="tier">Tier–2 • Max 10 Lots Allowed</div>
+      <div style="margin-top:16px; color:#aaa;">
+        Credit Score: <strong style="color:#00ff88;">694</strong> (Medium Risk)
+      </div>
+    </div>
+
+    <!-- 3. Margin Slider -->
+    <div class="slider-container">
+      <div class="slider-label">How much margin required?</div>
+      <input type="range" min="0" max="180000" value="0" step="1000" id="lotSlider">
+      <div class="slider-values">
+        <span>₹0</span>
+        <span>₹1,80,000</span>
+      </div>
+      <div class="current-lot" id="currentLot">₹0</div>
+    </div>
+
+    <!-- 4. Cost Breakdown -->
+    <div class="cost-breakdown">
+      <div class="cost-row">
+        <span>Lot Amount</span>
+        <span id="lotAmount">₹0</span>
+      </div>
+      <div class="cost-row">
+        <span>Processing Fee <small>(₹5 per ₹1000)</small></span>
+        <span id="processingFee">₹0</span>
+      </div>
+      <div class="cost-row">
+        <span>Interest <small>(4 days @ 2% p.a.)</small></span>
+        <span id="interest">₹0.00</span>
+      </div>
+      <div class="cost-row">
+        <span><strong>Total Repayable Amount</strong></span>
+        <span id="totalRepay">₹0.00</span>
+      </div>
+    </div>
+
+    <!-- 5. Safety Note -->
+    <div class="safety-note">
+      <strong>Safety First:</strong> Your margin is locked directly to the IPO ASBA account via your broker.
+      Funds cannot be withdrawn or used elsewhere. Repayment happens automatically after allotment or 4 days.
+    </div>
+
+    <!-- 6. Final Buttons -->
+    <div class="btn-group">
+      <button class="btn btn-back" onclick="history.back()">Go Back</button>
+      <button class="btn btn-proceed" onclick="proceedToAgreement()">
+        Proceed to Agreement
+      </button>
+    </div>
+  </main>
+
+  <!-- Footer – Only 3 Icons -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+  <script>
+    const slider = document.getElementById('lotSlider');
+    const currentLot = document.getElementById('currentLot');
+    const lotAmount = document.getElementById('lotAmount');
+    const processingFee = document.getElementById('processingFee');
+    const interest = document.getElementById('interest');
+    const totalRepay = document.getElementById('totalRepay');
+
+    slider.addEventListener('input', function() {
+      const amount = parseInt(this.value);
+      const fee = Math.ceil(amount / 1000) * 5;
+      const totalInterest = (amount * 0.02 / 365 * 4).toFixed(2);
+      const total = amount + fee + parseFloat(totalInterest);
+
+      currentLot.textContent = `₹${amount.toLocaleString()}`;
+      lotAmount.textContent = `₹${amount.toLocaleString()}`;
+      processingFee.textContent = `₹${fee}`;
+      interest.textContent = `₹${totalInterest}`;
+      totalRepay.textContent = `₹${total.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+    });
+
+    function proceedToAgreement() {
+  alert('Redirecting to Aadhaar e-Sign Agreement →\nTotal Repayable: ' + document.getElementById('totalRepay').textContent);
+  window.location.href = 'aadhar.html';
+}
+  </script>
+</body>
+</html>

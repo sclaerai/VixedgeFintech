@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TCS – VIXEDGE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; }
+    .back-btn:hover { color:#00ffff; }
+    .page-title { font-size:1.8rem; font-weight:900; color:#00ffff; letter-spacing:0.08em; }
+    .header-right { display:flex; align-items:center; gap:18px; }
+    .vixai-logo { font-size:1.7rem; font-weight:900; color:#00ffff; }
+    .header-icons i { font-size:1.5rem; color:#888; cursor:pointer; transition:0.4s; }
+    .header-icons i:hover { color:#00ffff; transform:scale(1.2); }
+
+    main { flex:1; padding:90px 20px 220px; max-width:1100px; margin:0 auto; width:100%; }
+
+    .neon-card {
+      background:linear-gradient(135deg,#0a0a0a,#141414);
+      border:1px solid #222; border-radius:28px; padding:32px;
+      margin-bottom:28px; position:relative; overflow:hidden;
+      transition:all 0.6s cubic-bezier(0.23,1,0.32,1);
+      box-shadow:0 8px 30px rgba(0,0,0,0.6);
+    }
+    .neon-card::before {
+      content:''; position:absolute; inset:0;
+      background:conic-gradient(from 180deg at 50% 50%, #00ffff00, #00ffff, #00ffff00);
+      border-radius:28px; padding:3px; mask:linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      mask-composite:exclude; -webkit-mask-composite:xor;
+      opacity:0; transition:opacity 0.6s;
+    }
+    .neon-card:hover::before { opacity:1; }
+    .neon-card:hover {
+      transform:translateY(-16px) scale(1.025);
+      box-shadow:0 30px 80px rgba(0,255,255,0.4);
+    }
+
+    /* COMPACT & ELEGANT PRICE + GRAPH SECTION */
+    .price-compact {
+      text-align:center; padding:28px 20px;
+      background:linear-gradient(135deg,#0a0a0a,#141414);
+      border-radius:28px; margin-bottom:28px;
+      border:2px solid #00ffff22;
+    }
+    .live-price {
+      font-size:4.2rem; font-weight:900; background:linear-gradient(90deg,#00ff88,#00ffff);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      text-shadow:0 0 50px rgba(0,255,136,0.5);
+    }
+    .price-change {
+      font-size:1.5rem; margin:12px 0; font-weight:700;
+    }
+    .change-up { color:#00ff88; }
+    .change-down { color:#ff4466; }
+
+    .chart-compact {
+      height:240px; margin:30px 0; border-radius:20px; overflow:hidden;
+      background:#111; border:1px solid #333;
+    }
+
+    .overview {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; margin:30px 0;
+    }
+    .overview-item { text-align:center; }
+    .overview-value { font-size:2.5rem; color:#00ff88; font-weight:900; }
+
+    .financials-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; margin:40px 0;
+    }
+    .financial-card {
+      background:#111; border-radius:20px; padding:24px;
+    }
+    .financial-label { color:#888; font-size:0.95rem; }
+    .financial-value { font-size:1.8rem; color:#00ff88; font-weight:700; }
+
+    .ratios-table {
+      width:100%; border-collapse:collapse; margin:30px 0;
+    }
+    .ratios-table th, .ratios-table td {
+      padding:16px; text-align:left; border-bottom:1px solid #333;
+    }
+    .ratios-table th { color:#00ffff; }
+    .ratios-table .ratio-value { color:#00ff88; font-weight:700; }
+
+    .news-section {
+      margin:40px 0;
+    }
+    .news-item {
+      padding:20px; border-bottom:1px solid #222; cursor:pointer;
+      transition:0.3s;
+    }
+    .news-item:hover { background:#111; border-left:4px solid #00ffff; }
+    .news-source { color:#00ffff; font-size:0.9rem; }
+    .news-time { color:#666; font-size:0.85rem; margin:4px 0; }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px);
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.8rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.82rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="back-btn" onclick="history.back()">Back</div>
+    <div class="page-title">TCS</div>
+    <div class="header-right">
+     <div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>
+      <i class="fas fa-bell"></i>
+      <i class="fas fa-search"></i>
+    </div>
+  </header>
+
+  <main>
+    <!-- COMPACT Live Price + Graph Section -->
+    <div class="price-compact">
+      <div style="font-size:1.3rem; color:#00ffff; margin-bottom:8px;">LIVE PRICE</div>
+      <div class="live-price">₹3,231.50</div>
+      <div class="price-change change-up">+₹45.20 (+1.42%) today</div>
+
+      <div class="chart-compact">
+        <canvas id="tcsChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Overview -->
+    <h2 style="color:#00ffff; margin:40px 0 20px;">Overview</h2>
+    <div class="neon-card">
+      <div class="overview">
+        <div class="overview-item">
+          <div class="overview-value">Tata Consultancy Services Ltd.</div>
+          <small>Company Name</small>
+        </div>
+        <div class="overview-item">
+          <div class="overview-value">NSE: TCS, BSE: 532540</div>
+          <small>Ticker</small>
+        </div>
+        <div class="overview-item">
+          <div class="overview-value">IT - Software</div>
+          <small>Sector</small>
+        </div>
+      </div>
+      <p style="margin-top:20px; line-height:1.8; color:#aaa;">Tata Consultancy Services Ltd. is a leading IT services company.</p>
+    </div>
+
+    <!-- Financials -->
+    <h2 style="color:#00ffff; margin:40px 0 20px;">Financials</h2>
+    <div class="financials-grid">
+      <div class="neon-card financial-card">
+        <div class="financial-label">Market Cap</div>
+        <div class="financial-value">₹11,69,185 Cr</div>
+      </div>
+      <div class="neon-card financial-card">
+        <div class="financial-label">Revenue (TTM)</div>
+        <div class="financial-value">₹2,14,853 Cr</div>
+      </div>
+      <div class="neon-card financial-card">
+        <div class="financial-label">Profit (TTM)</div>
+        <div class="financial-value">₹48,057 Cr</div>
+      </div>
+      <div class="neon-card financial-card">
+        <div class="financial-label">EPS (TTM)</div>
+        <div class="financial-value">₹130.81</div>
+      </div>
+      <div class="neon-card financial-card">
+        <div class="financial-label">Dividend Yield</div>
+        <div class="financial-value">3.89%</div>
+      </div>
+      <div class="neon-card financial-card">
+        <div class="financial-label">Cash</div>
+        <div class="financial-value">₹7,152 Cr</div>
+      </div>
+      <div class="neon-card financial-card">
+        <div class="financial-label">Debt</div>
+        <div class="financial-value">₹0 Cr</div>
+      </div>
+      <div class="neon-card financial-card">
+        <div class="financial-label">Book Value (TTM)</div>
+        <div class="financial-value">₹232.84</div>
+      </div>
+    </div>
+
+    <!-- Key Ratios -->
+    <h2 style="color:#00ffff; margin:40px 0 20px;">Key Ratios</h2>
+    <div class="neon-card">
+      <table class="ratios-table">
+        <tr><th>Ratio</th><th>Value</th></tr>
+        <tr><td>P/E Ratio</td><td class="ratio-value">24.7</td></tr>
+        <tr><td>P/B Ratio</td><td class="ratio-value">13.88</td></tr>
+        <tr><td>ROE</td><td class="ratio-value">65.56%</td></tr>
+        <tr><td>ROCE</td><td class="ratio-value">86.42%</td></tr>
+        <tr><td>Debt/Equity</td><td class="ratio-value">0</td></tr>
+        <tr><td>Sales Growth</td><td class="ratio-value">6.17%</td></tr>
+        <tr><td>Profit Growth</td><td class="ratio-value">10.33%</td></tr>
+        <tr><td>Operating Margin</td><td class="ratio-value">26.96%</td></tr>
+        <tr><td>ROA</td><td class="ratio-value">38.64%</td></tr>
+        <tr><td>Current Ratio</td><td class="ratio-value">2.10</td></tr>
+      </table>
+    </div>
+
+    <!-- 52 Week High/Low & Volume -->
+    <h2 style="color:#00ffff; margin:40px 0 20px;">52-Week Range & Volume</h2>
+    <div class="neon-card">
+      <div style="display:flex; justify-content:space-around; text-align:center;">
+        <div>
+          <div style="font-size:2.5rem; color:#ffaa00;">₹4,494</div>
+          <small>52W High</small>
+        </div>
+        <div>
+          <div style="font-size:2.5rem; color:#ff4466;">₹2,867</div>
+          <small>52W Low</small>
+        </div>
+        <div>
+          <div style="font-size:2.5rem; color:#00ff88;">14.97 L</div>
+          <small>Volume (NSE)</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent News -->
+    <h2 style="color:#00ffff; margin:40px 0 20px;">Recent News</h2>
+    <div class="neon-card news-section">
+      <div class="news-item">
+        <div class="news-source">Moneycontrol • 32 mins ago</div>
+        <div>Tata Consultancy Services trades higher on the BSE</div>
+      </div>
+      <div class="news-item">
+        <div class="news-source">Economic Times • 1 hour ago</div>
+        <div>TCS signs five-year deal with SAP</div>
+      </div>
+      <div class="news-item">
+        <div class="news-source">Bloomberg • 2 hours ago</div>
+        <div>TCS rises on extending partnership with Aldi South</div>
+      </div>
+      <div class="news-item">
+        <div class="news-source">CNBC-TV18 • 3 hours ago</div>
+        <div>TCS extends partnership with Aldi South</div>
+      </div>
+      <div class="news-item">
+        <div class="news-source">Mint • 4 hours ago</div>
+        <div>Tata Consultancy Services informs about press release</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+  <script>
+    const ctx = document.getElementById('tcsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+          label: 'TCS (₹)',
+          data: [3800, 3850, 3900, 3950, 4000, 4050, 4100, 4150, 4200, 4250, 4300, 3231],
+          borderColor: '#00ff88',
+          backgroundColor: 'rgba(0,255,136,0.15)',
+          borderWidth: 4,
+          tension: 0.5,
+          fill: true,
+          pointRadius: 0,
+          pointHoverRadius: 10,
+          pointBackgroundColor: '#00ffff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: '#666' }, grid: { display: false } },
+          y: { ticks: { color: '#666' }, grid: { color: '#333' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

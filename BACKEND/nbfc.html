@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE • NBFC Integrations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #171b21;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent: #00d4ff;
+      --border: #2d3748;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+    }
+    /* Sidebar */
+    #sidebar {
+      width: 70px;
+      background: var(--surface);
+      transition: width 0.35s ease;
+      overflow: hidden;
+      border-right: 1px solid var(--border);
+      z-index: 10;
+      flex-shrink: 0;
+    }
+    #sidebar:hover { width: 260px; }
+    #sidebar:hover .label { opacity:1; margin-left:12px; }
+    .menu { padding: 20px 0; }
+    .menu-item {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .menu-item:hover { background: rgba(0,212,255,0.1); color: var(--accent); }
+    .menu-item.active {
+      background: rgba(0,212,255,0.15);
+      color: var(--accent);
+      border-left: 4px solid var(--accent);
+    }
+    .menu-item i { font-size: 22px; width: 30px; text-align:center; }
+    .label { opacity: 0; transition: all 0.3s; font-weight: 500; white-space: nowrap; }
+
+    main {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+      position: relative;
+    }
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 70px;
+      right: 0;
+      height: 70px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--accent);
+      z-index: 9;
+    }
+    .content { margin-top: 90px; }
+    .header {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+
+    /* Summary Cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .sum-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: transform 0.2s;
+    }
+    .sum-card:hover { transform: translateY(-4px); }
+    .sum-title { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .sum-value { font-size: 32px; font-weight: 600; }
+
+    /* Test Payout Button */
+    .test-btn {
+      background: #166534;
+      color: #86efac;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom:养殖/*  */ 40px;
+    }
+    .test-btn:hover { background: #1a5f3b; transform: translateY(-2px); }
+
+    /* Logs Table */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .table th {
+      background: rgba(0,212,255,0.1);
+      text-align: left;
+      padding: 16px 20px;
+      font-weight: 500;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+    }
+    .table td {
+      padding: 18px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .table tr:hover { background: rgba(0,212,255,0.05); }
+    .status {
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .status.success { background: #166534; color: #86efac; }
+    .status.failed  { background: #7f1d1d; color: #fca5a5; }
+    .status.pending { background: #5d3f01; color: #fbbf24; }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <aside id="sidebar">
+    <div class="menu">
+      < <div class="menu-item  " onclick="window.location.href='dashboard.html'" style="cursor: pointer;"><i class="fas fa-home"></i><span class="label">Dashboard</span></div>
+      <div class="menu-item" onclick="window.location.href='usermgmt.html'" style="cursor: pointer;"><i class="fas fa-users"></i><span class="label">User Management</span></div>
+      <div class="menu-item" onclick="window.location.href='margin.html'" style="cursor: pointer;"><i class="fas fa-coins"></i><span class="label">Margin System</span></div>
+      <div class="menu-item" onclick="window.location.href='ipo opt.html'" style="cursor: pointer;"><i class="fas fa-chart-line"></i><span class="label">IPO Operations Panel</span></div>
+      <div class="menu-item active" onclick="window.location.href='nbfc.html'" style="cursor: pointer;"><i class="fas fa-university"></i><span class="label">NBFC Integrations</span></div>
+      <div class="menu-item" onclick="window.location.href='broker.html'" style="cursor: pointer;"><i class="fas fa-exchange-alt"></i><span class="label">Broker Integrations Panel</span></div>
+      <div class="menu-item" onclick="window.location.href='escrow.html'" style="cursor: pointer;"><i class="fas fa-wallet"></i><span class="label">Escrow / Banking Panel</span></div>
+      <div class="menu-item" onclick="window.location.href='fin n acc.html'" style="cursor: pointer;"><i class="fas fa-file-invoice-dollar"></i><span class="label">Finance & Accounting</span></div>
+      <div class="menu-item" onclick="window.location.href='risk.html'" style="cursor: pointer;"><i class="fas fa-shield-alt"></i><span class="label">Risk & Compliance</span></div>
+      <div class="menu-item" onclick="window.location.href='support.html'" style="cursor: pointer;"><i class="fas fa-ticket-alt"></i><span class="label">Support & Tickets</span></div>
+      <div class="menu-item" onclick="window.location.href='setting.html  '" style="cursor: pointer;"><i class="fas fa-cog"></i><span class="label">Settings</span></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="top-bar">VIXEDGE</div>
+    <div class="content">
+      <h1 class="header">NBFC Integrations</h1>
+
+      <!-- Summary Cards -->
+      <div class="summary-grid">
+        <div class="sum-card">
+          <div class="sum-title">Total NBFC Credit Limit</div>
+          <div class="sum-value">₹250 Cr</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-title">Utilized Limit</div>
+          <div class="sum-value">₹108 Cr</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-title">Available Limit</div>
+          <div class="sum-value good">₹142 Cr</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-title">Current Interest Rate</div>
+          <div class="sum-value">11.8% p.a.</div>
+        </div>
+      </div>
+
+      <!-- Test Payout Button -->
+      <button class="test-btn">
+        <i class="fas fa-paper-plane"></i> Trigger NBFC Test Payout (₹10,000)
+      </button>
+
+      <!-- Logs Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Type</th>
+            <th>Loan ID</th>
+            <th>User</th>
+            <th>Amount</th>
+            <th>NBFC</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>07 Dec 2025 14:28:11</td>
+            <td>Disbursement</td>
+            <td>#LON-98241</td>
+            <td>Arjun Patel</td>
+            <td>₹4,80,000</td>
+            <td>Bajaj Finance</td>
+            <td><span class="status success">Success</span></td>
+          </tr>
+          <tr>
+            <td>07 Dec 2025 13:55:03</td>
+            <td>Repayment</td>
+            <td>#LON-98189</td>
+            <td>Priya Verma</td>
+            <td>₹42,000</td>
+            <td>L&T Finance</td>
+            <td><span class="status success">Success</span></td>
+          </tr>
+          <tr>
+            <td>07 Dec 2025 12:19:47</td>
+            <td>Settlement</td>
+            <td>#LON-98012</td>
+            <td>Rohan Mehta</td>
+            <td>₹7,50,000</td>
+            <td>Bajaj Finance</td>
+            <td><span class="status success">Success</span></td>
+          </tr>
+          <tr>
+            <td>07 Dec 2025 11:04:22</td>
+            <td>Disbursement</td>
+            <td>#LON-97988</td>
+            <td>Kavya Nair</td>
+            <td>₹2,15,000</td>
+            <td>L&T Finance</td>
+            <td><span class="status pending">Pending</span></td>
+          </tr>
+          <tr>
+            <td>07 Dec 2025 09:31:15</td>
+            <td>Repayment</td>
+            <td>#LON-97845</td>
+            <td>Siddharth Jain</td>
+            <td>₹38,500</td>
+            <td>Bajaj Finance</td>
+            <td><span class="status failed">Failed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

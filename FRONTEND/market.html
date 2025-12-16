@@ -1,0 +1,235 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markets – VIXEDGE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; }
+    .back-btn:hover { color:#00ffff; }
+    .page-title { font-size:1.8rem; font-weight:900; color:#00ffff; letter-spacing:0.08em; }
+    .header-right { display:flex; align-items:center; gap:18px; }
+    .vixai-logo { font-size:1.7rem; font-weight:900; color:#00ffff; }
+    .header-icons i { font-size:1.ConcurrentHashMap5rem; color:#888; cursor:pointer; transition:0.4s; }
+    .header-icons i:hover { color:#00ffff; transform:scale(1.2); }
+
+    main { flex:1; padding:90px 20px 140px; max-width:1100px; margin:0 auto; width:100%; }
+
+    /* FULL-WIDTH SEARCH BAR */
+    .search-container {
+      position:relative; margin:0 0 40px 0;
+    }
+    .search-bar {
+      width:100%; padding:20px 70px 20px 60px; background:#111;
+      border:2px solid #333; border-radius:28px; color:#fff;
+      font-size:1.6rem; font-family:'Orbitron'; outline:none;
+      transition:0.4s;
+    }
+    .search-bar:focus {
+      border-color:#00ffff; box-shadow:0 0 40px rgba(0,255,255,0.4);
+    }
+    .search-icon { position:absolute; left:20px; top:50%; transform:translateY(-50%); font-size:1.8rem; color:#00ffff; }
+    .search-right {
+      position:absolute; right:16px; top:50%; transform:translateY(-50%);
+      display:flex; gap:16px;
+    }
+    .search-right i { font-size:1.5rem; color:#888; cursor:pointer; }
+    .search-right i:hover { color:#00ffff; }
+
+    /* NEON CARD */
+    .neon-card {
+      background:linear-gradient(135deg,#0a0a0a,#141414);
+      border:1px solid #222; border-radius:28px; padding:32px;
+      margin-bottom:28px; position:relative; overflow:hidden;
+      transition:all 0.6s cubic-bezier(0.23,1,0.32,1);
+      box-shadow:0 8px 30px rgba(0,0,0,0.6);
+    }
+    .neon-card::before {
+      content:''; position:absolute; inset:0;
+      background:conic-gradient(from 180deg at 50% 50%, #00ffff00, #00ffff, #00ffff00);
+      border-radius:28px; padding:3px; mask:linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      mask-composite:exclude; -webkit-mask-composite:xor;
+      opacity:0; transition:opacity 0.6s;
+    }
+    .neon-card:hover::before { opacity:1; }
+    .neon-card:hover {
+      transform:translateY(-16px) scale(1.025);
+      box-shadow:0 30px 80px rgba(0,255,255,0.4);
+    }
+
+    .section-title {
+      font-size:1.8rem; color:#00ffff; margin:40px 0 20px; font-weight:700;
+    }
+
+    /* GAINERS & LOSERS */
+    .mover-list {
+      display:grid; grid-template-columns:1fr 1fr; gap:24px;
+    }
+    @media (max-width:768px) { .mover-list { grid-template-columns:1fr; } }
+    .mover-card {
+      background:#111; border-radius:20px; padding:24px;
+    }
+    .mover-title {
+      font-size:1.5rem; margin-bottom:20px; font-weight:700;
+    }
+    .gainer { color:#00ffff; }
+    .loser { color:#ff4466; }
+
+    .stock-item {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:16px 0; border-bottom:1px solid #222;
+    }
+    .stock-name { font-weight:700; }
+    .stock-price { font-size:1.4rem; }
+    .stock-change { font-weight:900; }
+    .change-up { color:#00ff88; }
+    .change-down { color:#ff4466; }
+    .sparkline {
+      width:80px; height:30px; background:linear-gradient(90deg,#00ff8811,#00ff8833);
+      border-radius:8px; margin-left:12px;
+    }
+
+    /* NEWS */
+    .news-item {
+      padding:20px 0; border-bottom:1px solid #222; cursor:pointer;
+      transition:0.3s;
+    }
+    .news-item:hover { padding-left:12px; color:#00ffff; }
+    .news-source { color:#00ffff; font-size:0.9rem; }
+    .news-time { color:#666; font-size:0.85rem; }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px);
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.8rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.82rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="back-btn" onclick="history.back()">Back</div>
+    <div class="page-title">Markets</div>
+    <div class="header-right">
+     <div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>
+      <i class="fas fa-bell"></i>
+      <i class="fas fa-search"></i>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. FULL-WIDTH SEARCH BAR -->
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-bar" placeholder="Search stocks, IPOs, funds, gold, etc." autocomplete="off">
+      <div class="search-right">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-filter"></i>
+      </div>
+    </div>
+
+    <!-- 2. DEFAULT VIEW — GAINERS / LOSERS / NEWS -->
+    <div class="mover-list">
+      <!-- Top Gainers -->
+    <div class="neon-card mover-card" onclick="window.location.href='deep mrkt.html'" style="cursor: pointer;">
+        <div class="mover-title gainer">Top Gainers Today</div>
+        <div class="stock-item">
+          <div><div class="stock-name">TCS</div><small>₹3,560</small></div>
+          <div><span class="stock-change change-up">+4.23%</span><div class="sparkline"></div></div>
+        </div>
+        <div class="stock-item">
+          <div><div class="stock-name">Infosys</div><small>₹1,890</small></div>
+          <div><span class="stock-change change-up">+3.91%</span><div class="sparkline"></div></div>
+        </div>
+        <div class="stock-item">
+          <div><div class="stock-name">HCL Tech</div><small>₹1,720</small></div>
+          <div><span class="stock-change change-up">+3.45%</span><div class="sparkline"></div></div>
+        </div>
+        <div class="stock-item">
+          <div><div class="stock-name">Wipro</div><small>₹542</small></div>
+          <div><span class="stock-change change-up">+3.12%</span><div class="sparkline"></div></div>
+        </div>
+        <div class="stock-item">
+          <div><div class="stock-name">Tech Mahindra</div><small>₹1,620</small></div>
+          <div><span class="stock-change change-up">+2.88%</span><div class="sparkline"></div></div>
+        </div>
+      </div>
+
+      <!-- Top Losers -->
+      <div class="neon-card mover-card">
+        <div class="mover-title loser">Top Losers Today</div>
+        <div class="stock-item">
+          <div><div class="stock-name">ONGC</div><small>₹278</small></div>
+          <div><span class="stock-change change-down">-2.41%</span><div class="sparkline" style="background:linear-gradient(90deg,#ff446611,#ff446633);"></div></div>
+        </div>
+        <div class="stock-item">
+          <div><div class="stock-name">NTPC</div><small>₹412</small></div>
+          <div><span class="stock-change change-down">-1.98%</span><div class="sparkline" style="background:linear-gradient(90deg,#ff446611,#ff446633);"></div></div>
+        </div>
+        <div class="stock-item">
+          <div><div class="stock-name">Coal India</div><small>₹488</small></div>
+          <div><span class="stock-change change-down">-1.75%</span><div class="sparkline" style="background:linear-gradient(90deg,#ff446611,#ff446633);"></div></div>
+        </div>
+        <div class="stock-item">
+          <div><div class="stock-name">Power Grid</div><small>₹332</small></div>
+          <div><span class="stock-change change-down">-1.52%</span><div class="sparkline" style="background:linear-gradient(90deg,#ff446611,#ff446633);"></div></div>
+        </div>
+        <div class="stock-item">
+          <div><div class="stock-name">SBI Life</div><small>₹1,720</small></div>
+          <div><span class="stock-change change-down">-1.38%</span><div class="sparkline" style="background:linear-gradient(90deg,#ff446611,#ff446633);"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Market News -->
+    <h2 class="section-title">Latest Market News</h2>
+    <div class="neon-card">
+      <div class="news-item">
+        <div class="news-source">Moneycontrol • 32 mins ago</div>
+        <div>RBI keeps repo rate unchanged at 6.5% — markets rally 1.2%</div>
+      </div>
+      <div class="news-item">
+        <div class="news-source">Economic Times • 1 hour ago</div>
+        <div>TCS wins ₹15,000 Cr deal from US bank — stock jumps 4%</div>
+      </div>
+      <div class="news-item">
+        <div class="news-source">Bloomberg • 2 hours ago</div>
+        <div>FIIs turn net buyers after 42 days — ₹8,200 Cr inflow</div>
+      </div>
+      <div class="news-item">
+        <div class="news-source">CNBC-TV18 • 3 hours ago</div>
+        <div>Adani Group raises $1 Bn via dollar bonds</div>
+      </div>
+      <div class="news-item">
+        <div class="news-source">Mint • 4 hours ago</div>
+        <div>Midcaps outperform — Nifty Midcap 100 up 2.1% today</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ONLY 3-ICON FOOTER -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+</body>
+</html>

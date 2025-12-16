@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REITs & InvITs – VIXEDGE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:20px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; }
+    .back-btn:hover { color:#00ffff; }
+    .page-title { font-size:1.6rem; font-weight:700; }
+    .header-icons { display:flex; align-items:center; gap:20px; }
+    .vixai-logo { font-size:1.8rem; font-weight:900; color:#00ffff; }
+    .header-icons i { font-size:1.5rem; color:#888; cursor:pointer; }
+    .header-icons i:hover { color:#00ffff; }
+
+    main {
+      flex:1; padding:90px 20px 140px; max-width:1400px; margin:0 auto; width:100%;
+    }
+
+    /* GRID OF CURVED TILES — SAME NEON EFFECT */
+    .tiles-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
+      gap:24px;
+      margin-top:20px;
+    }
+
+    .reit-tile {
+      background:linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      border:1px solid #222;
+      border-radius:24px;
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .reit-tile::before {
+      content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+      background:linear-gradient(135deg, transparent, rgba(0,255,255,0.12), transparent);
+      transform:rotate(30deg); opacity:0; transition:opacity 0.7s;
+    }
+
+    .reit-tile:hover {
+      transform: translateY(-16px) scale(1.04);
+      border-color:#00ffff !important;
+      box-shadow: 0 30px 70px rgba(0,255,255,0.35), 0 0 50px rgba(0,255,255,0.5);
+      z-index:10;
+    }
+    .reit-tile:hover::before { opacity:1; }
+
+    .tile-header {
+      display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;
+    }
+    .tile-name {
+      font-size:1.5rem; font-weight:900; color:#00ffff;
+    }
+    .tile-type {
+      font-size:0.9rem; color:#ffaa00; background:#ffaa0022; padding:4px 12px; border-radius:20px;
+    }
+
+    .tile-yield {
+      font-size:3rem; font-weight:900; color:#00ff88; margin:16px 0;
+      text-shadow:0 0 30px #00ff88;
+    }
+
+    .tile-info {
+      display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.95rem; color:#aaa; margin:20px 0;
+    }
+    .info-strong { color:#00ff88; font-weight:700; }
+
+    /* Expand Button – Lower Right */
+    .expand-btn {
+      position:absolute; bottom:20px; right:20px;
+      padding:12px 24px; background:#00ffff; color:#000;
+      border:none; border-radius:50px; font-weight:900;
+      font-size:0.9rem; cursor:pointer; transition:0.4s;
+      box-shadow:0 0 20px rgba(0,255,255,0.5);
+    }
+    .expand-btn:hover {
+      background:#00cccc; transform:scale(1.1); box-shadow:0 0 40px rgba(0,255,255,0.8);
+    }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px);
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.7rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.78rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="back-btn" onclick="history.back()">Back</div>
+    <div class="page-title">REITs & InvITs</div>
+    <div class="header-icons">
+     <div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>
+      <i class="fas fa-bell"></i>
+      <i class="fas fa-search"></i>
+    </div>
+  </header>
+
+  <main>
+    <div class="tiles-grid">
+
+      <div class="reit-tile" onclick="location.href='reit-detail.html'">
+        <div class="tile-header">
+          <div class="tile-name">Mindspace REIT</div>
+          <div class="tile-type">Office</div>
+        </div>
+        <div class="tile-yield">7.8%</div>
+        <div class="tile-info">
+          <div>NAV<br><span class="info-strong">₹368</span></div>
+          <div>Occupancy<br><span class="info-strong">88.4%</span></div>
+          <div>Min Invest<br><span class="info-strong">₹10,000</span></div>
+          <div>Dist.<br><span class="info-strong">Quarterly</span></div>
+        </div>
+<button class="expand-btn" onclick="window.location.href='reit-detail.html'">Expand</button>   
+   </div>
+
+      <div class="reit-tile">
+        <div class="tile-header">
+          <div class="tile-name">Embassy Office Parks</div>
+          <div class="tile-type">Commercial</div>
+        </div>
+        <div class="tile-yield">7.5%</div>
+        <div class="tile-info">
+          <div>NAV<br><span class="info-strong">₹362</span></div>
+          <div>Occupancy<br><span class="info-strong">86%</span></div>
+          <div>Min Invest<br><span class="info-strong">₹10,000</span></div>
+          <div>Dist.<br><span class="info-strong">Quarterly</span></div>
+        </div>
+        <button class="expand-btn">Expand</button>
+      </div>
+
+      <div class="reit-tile">
+        <div class="tile-header">
+          <div class="tile-name">Brookfield India REIT</div>
+          <div class="tile-type">Office</div>
+        </div>
+        <div class="tile-yield">8.1%</div>
+        <div class="tile-info">
+          <div>NAV<br><span class="info-strong">₹318</span></div>
+          <div>Occupancy<br><span class="info-strong">89%</span></div>
+          <div>Min Invest<br><span class="info-strong">₹10,000</span></div>
+          <div>Dist.<br><span class="info-strong">Quarterly</span></div>
+        </div>
+        <button class="expand-btn">Expand</button>
+      </div>
+
+      <div class="reit-tile">
+        <div class="tile-header">
+          <div class="tile-name">India Grid InvIT</div>
+          <div class="tile-type">Power Transmission</div>
+        </div>
+        <div class="tile-yield">11.2%</div>
+        <div class="tile-info">
+          <div>NAV<br><span class="info-strong">₹142</span></div>
+          <div>Assets<br><span class="info-strong">15 Projects</span></div>
+          <div>Min Invest<br><span class="info-strong">₹10,000</span></div>
+          <div>Dist.<br><span class="info-strong">Quarterly</span></div>
+        </div>
+        <button class="expand-btn">Expand</button>
+      </div>
+
+      <div class="reit-tile">
+        <div class="tile-header">
+          <div class="tile-name">PowerGrid InvIT</div>
+          <div class="tile-type">Transmission</div>
+        </div>
+        <div class="tile-yield">10.8%</div>
+        <div class="tile-info">
+          <div>NAV<br><span class="info-strong">₹138</span></div>
+          <div>Assets<br><span class="info-strong">11 Lines</span></div>
+          <div>Min Invest<br><span class="info-strong">₹10,000</span></div>
+          <div>Dist.<br><span class="info-strong">Quarterly</span></div>
+        </div>
+        <button class="expand-btn">Expand</button>
+      </div>
+
+      <div class="reit-tile">
+        <div class="tile-header">
+          <div class="tile-name">Nexus Select Trust</div>
+          <div class="tile-type">Retail Malls</div>
+        </div>
+        <div class="tile-yield">8.4%</div>
+        <div class="tile-info">
+          <div>NAV<br><span class="info-strong">₹148</span></div>
+          <div>Malls<br><span class="info-strong">17</span></div>
+          <div>Min Invest<br><span class="info-strong">₹10,000</span></div>
+          <div>Dist.<br><span class="info-strong">Quarterly</span></div>
+        </div>
+        <button class="expand-btn">Expand</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer – Home | Markets | Profile -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+</body>
+</html>

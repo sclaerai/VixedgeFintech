@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pledge / Collateral – VIXEDGE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { 
+      font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; 
+    }
+    .back-btn:hover { color:#00ffff; }
+
+    .page-title {
+      font-size:1.6rem; font-weight:700; color:#00ffff;
+    }
+
+    .header-right {
+      display:flex; align-items:center; gap:18px;
+    }
+    .vixai-logo {
+      font-size:1.7rem; font-weight:900; color:#00ffff;
+    }
+    .header-icons i {
+      font-size:1.5rem; color:#888; cursor:pointer; transition:0.4s;
+    }
+    .header-icons i:hover {
+      color:#00ffff; transform:scale(1.2);
+    }
+
+    main { flex:1; padding:90px 20px 140px; max-width:1000px; margin:0 auto; width:100%; }
+
+    /* 1. Portfolio Summary Box */
+    .summary-box {
+      background:linear-gradient(135deg,#0f0f0f,#1f1f1f);
+      border:2px solid #00ffff33; border-radius:20px;
+      padding:28px; text-align:center; margin-bottom:32px;
+    }
+    .summary-title { color:#00ffff; font-size:1.4rem; margin-bottom:20px; }
+    .summary-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; margin:20px 0;
+    }
+    .summary-item strong { font-size:1.8rem; color:#00ff88; display:block; }
+
+    .ltv-bar {
+      height:16px; background:#222; border-radius:8px; overflow:hidden; margin:20px 0;
+      position:relative;
+    }
+    .ltv-pledged { height:100%; width:38%; background:#ff4466; }
+    .ltv-eligible { height:100%; width:62%; background:#00ff8833; position:absolute; top:0; left:38%; }
+    .ltv-marker { position:absolute; top:0; left:75%; width:4px; height:100%; background:#00ffff; }
+
+    /* 2. Filters */
+    .filters {
+      display:flex; flex-wrap:wrap; gap:12px; margin-bottom:24px;
+    }
+    .search-bar {
+      flex:1; min-width:220px; padding:14px; background:#111; border:1px solid #444;
+      border-radius:12px; color:#fff; font-family:'Orbitron';
+    }
+    select {
+      padding:14px; background:#111; border:1px solid #444; border-radius:12px;
+      color:#fff; font-family:'Orbitron';
+    }
+
+    /* 3. Stock List */
+    .stock-list {
+      background:#0a0a0a; border-radius:16px; overflow:hidden; margin-bottom:30px;
+    }
+    .stock-item {
+      display:flex; align-items:center; padding:20px; border-bottom:1px solid #222;
+      transition:all 0.3s; cursor:pointer;
+    }
+    .stock-item:hover {
+      background:#111; border-color:#00ffff33;
+      transform:translateX(8px);
+    }
+    .stock-logo {
+      width:50px; height:50px; background:#222; border-radius:12px; margin-right:16px;
+      flex-shrink:0;
+    }
+    .stock-info { flex:1; }
+    .stock-name { font-size:1.1rem; font-weight:700; }
+    .stock-ticker { color:#888; font-size:0.9rem; }
+    .stock-ltv {
+      text-align:center; min-width:100px;
+    }
+    .ltv-value { font-size:1.8rem; font-weight:900; color:#00ff88; }
+    .haircut { font-size:0.85rem; color:#ff8888; }
+    .eligible-value {
+      text-align:right; font-size:1.1rem;
+    }
+    .info-icon { font-size:1.2rem; color:#888; margin-left:8px; cursor:help; }
+
+    /* 4. Pledge Calculator Bottom Sheet */
+    .calculator-sheet {
+      position:fixed; bottom:0; left:0; right:0; background:#000;
+      border-top:2px solid #00ffff; border-radius:24px 24px 0 0;
+      padding:32px; transform:translateY(100%); transition:transform 0.5s cubic-bezier(0.23,1,0.32,1);
+      z-index:1000; box-shadow:0 -20px 60px rgba(0,255,255,0.3);
+    }
+    .calculator-sheet.active { transform:translateY(0); }
+    .close-calc { position:absolute; top:16px; right:20px; font-size:2rem; color:#888; cursor:pointer; }
+
+    .calc-input {
+      margin:20px 0; padding:16px; background:#111; border:1px solid #444;
+      border-radius:12px; color:#fff; text-align:center; font-size:1.4rem;
+    }
+    .calc-output {
+      background:#111; border-radius:12px; padding:20px; margin:20px 0;
+      border:1px solid #00ffff33;
+    }
+    .calc-row {
+      display:flex; justify-content:space-between; padding:10px 0; font-size:1.1rem;
+    }
+    .calc-row strong { color:#00ff88; }
+
+    /* 5. Action Buttons */
+    .action-btns {
+      display:flex; gap:16px; margin:30px 0;
+    }
+    .btn-action {
+      flex:1; padding:18px; background:#00ffff; color:#000; border:none;
+      border-radius:14px; font-weight:900; font-size:1.1rem; cursor:pointer;
+    }
+    .btn-unpledge { background:#ff4466; }
+
+    /* 6. Status Tracking */
+    .status-table {
+      width:100%; border-collapse:collapse; margin:30px 0;
+    }
+    .status-table th, .status-table td {
+      padding:16px; text-align:left; border-bottom:1px solid #333;
+    }
+    .status-pending { color:#ffaa00; }
+    .status-approved { color:#00ff88; }
+    .status-rejected { color:#ff4466; }
+
+    .faq { margin:40px 0; line-height:2; }
+    .faq h3 { color:#00ffff; margin:30px 0 16px; }
+    .faq ul { color:#aaa; line-height:1.9; }
+
+    .risk-note {
+      background:#ff000011; border:1px solid #ff446644; border-radius:12px;
+      padding:20px; margin:40px 0; color:#ff8888; font-size:0.95rem; line-height:1.7;
+    }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px);
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.7rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.78rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <!-- BACK BUTTON -->
+    <div class="back-btn" onclick="history.back()">Back</div>
+    
+    <!-- PAGE TITLE -->
+    <div class="page-title">Pledge / Collateral</div>
+
+    <!-- VIXAI + BELL + SEARCH -->
+    <div class="header-right">
+     <div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>
+      <div class="header-icons">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. Portfolio Summary Box -->
+    <div class="summary-box">
+      <div class="summary-title">Your Portfolio & Pledge Summary</div>
+      <div class="summary-grid">
+        <div><small>Total Portfolio</small><br><strong>₹12,45,000</strong></div>
+        <div><small>Eligible for Pledge</small><br><strong>₹9,80,000</strong></div>
+        <div><small>Already Pledged</small><br><strong>₹3,74,000</strong></div>
+        <div><small>Available Limit</small><br><strong>₹6,06,000</strong></div>
+      </div>
+      <div class="ltv-bar">
+        <div class="ltv-pledged"></div>
+        <div class="ltv-eligible"></div>
+        <div class="ltv-marker"></div>
+      </div>
+      <div style="color:#888; font-size:0.9rem;">Pledged | Eligible | Max LTV Cap (75%)</div>
+    </div>
+
+    <!-- 2. Filters -->
+    <div class="filters">
+      <input type="text" class="search-bar" placeholder="Search stock / ETF">
+      <select>
+        <option>Sort: Sort by LTV (High to Low)</option>
+        <option>Market Cap</option>
+        <option>Alphabetical</option>
+      </select>
+    </div>
+
+    <!-- 3. Eligible Stocks List -->
+    <div class="stock-list">
+      <div class="stock-item" onclick="openCalculator('HDFCBANK')">
+        <div class="stock-logo"></div>
+        <div class="stock-info">
+          <div class="stock-name">HDFC Bank</div>
+          <div class="stock-ticker">HDFCBANK.NS</div>
+        </div>
+        <div class="stock-ltv">
+          <div class="ltv-value">80%</div>
+          <div class="haircut">Haircut 20%</div>
+        </div>
+        <div class="eligible-value">₹1,24,000 <i class="fas fa-info-circle info-icon" title="LTP: ₹1,680"></i></div>
+      </div>
+      <div class="stock-item" onclick="openCalculator('RELIANCE')">
+        <div class="stock-logo"></div>
+        <div class="stock-info">
+          <div class="stock-name">Reliance Industries</div>
+          <div class="stock-ticker">RELIANCE.NS</div>
+        </div>
+        <div class="stock-ltv">
+          <div class="ltv-value">75%</div>
+          <div class="haircut">Haircut 25%</div>
+        </div>
+        <div class="eligible-value">₹2,10,000</div>
+      </div>
+      <div class="stock-item" onclick="openCalculator('TCS')">
+        <div class="stock-logo"></div>
+        <div class="stock-info">
+          <div class="stock-name">Tata Consultancy</div>
+          <div class="stock-ticker">TCS.NS</div>
+        </div>
+        <div class="stock-ltv">
+          <div class="ltv-value">70%</div>
+          <div class="haircut">Haircut 30%</div>
+        </div>
+        <div class="eligible-value">₹98,000</div>
+      </div>
+    </div>
+
+    <!-- 4. Action Buttons -->
+    <div class="action-btns">
+<button class="btn-action" onclick="window.location.href='pledge success.html'">Generate Pledge Request</button>
+<button class="btn-action btn-unpledge" onclick="window.location.href='unpledge.html'">Unpledge Securities</button>
+    </div>
+
+    <!-- 5. Status Tracking -->
+    <h3 style="color:#00ffff; margin:40px 0 20px;">Pledge Status Tracker</h3>
+    <table class="status-table">
+      <tr><th>Stock</th><th>Qty</th><th>Value</th><th>Status</th><th>Date</th><th>Action</th></tr>
+      <tr><td>TCS</td><td>10</td><td>₹34,000</td><td class="status-approved">Approved</td><td>21 Jan</td><td><a href="#" style="color:#00ffff;">View</a></td></tr>
+      <tr><td>HDFC Bank</td><td>5</td><td>₹17,000</td><td class="status-pending">Pending</td><td>20 Jan</td><td><a href="#" style="color:#ffaa00;">Cancel</a></td></tr>
+      <tr><td>ITC</td><td>15</td><td>₹7,000</td><td class="status-rejected">Rejected</td><td>19 Jan</td><td><a href="#" style="color:#ff8888;">Retry</a></td></tr>
+    </table>
+
+    <!-- 6. FAQ & Risk -->
+    <div class="faq">
+      <h3 style="color:#00ffff;">Quick FAQ</h3>
+      <ul style="color:#aaa; line-height:2; margin:20px 0;">
+        <li>What is pledging? → Borrow against shares without selling</li>
+        <li>Max LTV? → Up to 80% on blue chips</li>
+        <li>Interest rate? → 9–12% p.a.</li>
+        <li>Approval time? → T+1</li>
+      </ul>
+    </div>
+
+    <div class="risk-note">
+      <strong>Risk Disclosure:</strong> Pledging carries market risk. If collateral value falls below maintenance margin, NBFC may square off holdings.
+    </div>
+  </main>
+
+  <!-- 4. Pledge Calculator Bottom Sheet -->
+  <div class="calculator-sheet" id="calcSheet">
+    <div class="close-calc" onclick="document.getElementById('calcSheet').classList.remove('active')">×</div>
+    <h2 style="color:#00ffff; text-align:center; margin-bottom:24px;">Pledge Calculator</h2>
+    <div style="text-align:center;">
+      <h3 style="color:#fff;">HDFC Bank</h3>
+      <p>You own: <strong>80 shares</strong> | LTP: ₹1,680</p>
+    </div>
+    <div style="margin:30px 0;">
+      <label style="color:#aaa;">Quantity to Pledge</label>
+      <input type="range" min="1" max="80" value="40" id="pledgeQty" style="width:100%; margin:20px 0;">
+      <div style="font-size:2rem; color:#00ffff;" id="qtyDisplay">40 shares</div>
+    </div>
+    <div class="calc-output">
+      <div class="calc-row"><span>Eligible Value</span><span id="eligibleVal">₹53,760</span></div>
+      <div class="calc-row"><span>LTV Applied</span><span>80%</span></div>
+      <div class="calc-row"><span>You Will Get</span><span id="marginGet">₹43,008</span></div>
+      <div class="calc-row"><span>Daily Interest (~10% p.a.)</span><span id="dailyInt">₹11.78</span></div>
+      <div class="calc-row"><span><strong>Processing Fee</strong></span><span>₹75</span></div>
+    </div>
+<button class="btn-action" style="width:100%; margin-top:30px;" onclick="window.location.href='pledge success.html'">Proceed to Pledge</button>  </div>
+
+  <!-- Footer – Only 3 Icons -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+  <script>
+    function openCalculator(stock) {
+      document.getElementById('calcSheet').classList.add('active');
+    }
+
+    const qtySlider = document.getElementById('pledgeQty');
+    const qtyDisplay = document.getElementById('qtyDisplay');
+    const eligibleVal = document.getElementById('eligibleVal');
+    const marginGet = document.getElementById('marginGet');
+    const dailyInt = document.getElementById('dailyInt');
+
+    qtySlider.addEventListener('input', function() {
+      const qty = this.value;
+      const value = qty * 1680;
+      const margin = value * 0.8;
+      const interest = (margin * 0.1 / 365).toFixed(2);
+
+      qtyDisplay.textContent = `${qty} shares`;
+      eligibleVal.textContent = `₹${value.toLocaleString()}`;
+      marginGet.textContent = `₹${margin.toLocaleString()}`;
+      dailyInt.textContent = `₹${interest}`;
+    });
+  </script>
+</body>
+</html>

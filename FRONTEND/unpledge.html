@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unpledge Securities – VIXEDGE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { 
+      font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; 
+    }
+    .back-btn:hover { color:#00ffff; }
+
+    .page-title {
+      font-size:1.6rem; font-weight:700; color:#00ffff;
+    }
+
+    .header-right {
+      display:flex; align-items:center; gap:18px;
+    }
+    .vixai-logo {
+      font-size:1.7rem; font-weight:900; color:#00ffff;
+    }
+    .header-icons i {
+      font-size:1.5rem; color:#888; cursor:pointer; transition:0.4s;
+    }
+    .header-icons i:hover {
+      color:#00ffff; transform:scale(1.2);
+    }
+
+    main { flex:1; padding:90px 20px 140px; max-width:1000px; margin:0 auto; width:100%; }
+
+    .pledged-summary {
+      background:linear-gradient(135deg,#0f0f0f,#1f1f1f);
+      border:2px solid #ff446633; border-radius:20px;
+      padding:28px; text-align:center; margin-bottom:32px;
+    }
+    .summary-big { font-size:2.8rem; font-weight:900; color:#ff6688; margin:12px 0; }
+    .summary-note { color:#ff8888; font-size:1.1rem; }
+
+    .pledged-list {
+      background:#0a0a0a; border-radius:16px; overflow:hidden; margin-bottom:30px;
+    }
+    .pledged-item {
+      display:grid;
+      grid-template-columns: 70px 2fr 1.2fr 1.2fr 1fr;
+      align-items:center;
+      padding:20px 16px;
+      border-bottom:1px solid #222;
+      gap:16px;
+      transition:all 0.3s;
+    }
+    @media (max-width:768px) {
+      .pledged-item { grid-template-columns: 60px 1.8fr 1fr 1fr 1fr; gap:10px; padding:16px 12px; }
+    }
+    .pledged-item:hover { background:#111; }
+
+    .stock-logo {
+      width:50px; height:50px; background:#222; border-radius:12px;
+      justify-self:center;
+    }
+    .stock-info { text-align:left; }
+    .stock-name { font-size:1.15rem; font-weight:700; }
+    .stock-ticker { color:#888; font-size:0.85rem; margin-top:2px; }
+
+    .pledged-value { text-align:center; font-size:1.2rem; color:#00ff88; font-weight:700; }
+    .outstanding { text-align:center; color:#ffaa00; font-size:1.1rem; }
+
+    .action-buttons {
+      display:flex; gap:12px; justify-content:flex-end;
+    }
+    .unpledge-btn {
+      padding:12px 20px; background:#ff4466; color:#fff; border:none;
+      border-radius:10px; font-weight:900; cursor:pointer; transition:0.3s;
+    }
+    .unpledge-btn:hover {
+      background:#ff2255; box-shadow:0 0 30px rgba(255,68,102,0.6); transform:scale(1.05);
+    }
+    .partial-btn {
+      padding:12px 18px; background:#333; color:#aaa; border:none;
+      border-radius:10px; font-weight:700; cursor:pointer; font-size:0.9rem;
+    }
+    .partial-btn:hover { background:#444; color:#fff; }
+
+    .risk-note {
+      background:#ff000011; border:1px solid #ff446644; border-radius:12px;
+      padding:20px; margin:40px 0; color:#ff8888; font-size:0.95rem; line-height:1.7;
+    }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px);
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.7rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.78rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <!-- BACK BUTTON -->
+    <div class="back-btn" onclick="history.back()">Back</div>
+    
+    <!-- PAGE TITLE -->
+    <div class="page-title">Unpledge Securities</div>
+
+    <!-- VIXAI + BELL + SEARCH -->
+    <div class="header-right">
+     <div class="vixai-logo" onclick="window.location.href='vixai.html'" style="cursor: pointer;">VIXAI</div>
+      <div class="header-icons">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="pledged-summary">
+      <div>Total Pledged Value</div>
+      <div class="summary-big">₹3,74,000</div>
+      <div class="summary-note">Across 5 securities • Outstanding margin used: ₹2,98,000</div>
+    </div>
+
+    <div class="pledged-list">
+      <div class="pledged-item">
+        <div class="stock-logo"></div>
+        <div class="stock-info">
+          <div class="stock-name">HDFC Bank</div>
+          <div class="stock-ticker">HDFCBANK.NS</div>
+        </div>
+        <div class="pledged-value">₹1,24,000</div>
+        <div class="outstanding">₹99,200</div>
+        <div class="action-buttons">
+          <button class="partial-btn">Partial</button>
+          <button class="unpledge-btn">Unpledge All</button>
+        </div>
+      </div>
+
+      <div class="pledged-item">
+        <div class="stock-logo"></div>
+        <div class="stock-info">
+          <div class="stock-name">Reliance Ind.</div>
+          <div class="stock-ticker">RELIANCE.NS</div>
+        </div>
+        <div class="pledged-value">₹1,05,000</div>
+        <div class="outstanding">₹84,000</div>
+        <div class="action-buttons">
+          <button class="partial-btn">Partial</button>
+          <button class="unpledge-btn">Unpledge All</button>
+        </div>
+      </div>
+
+      <div class="pledged-item">
+        <div class="stock-logo"></div>
+        <div class="stock-info">
+          <div class="stock-name">TCS</div>
+          <div class="stock-ticker">TCS.NS</div>
+        </div>
+        <div class="pledged-value">₹68,000</div>
+        <div class="outstanding">₹54,400</div>
+        <div class="action-buttons">
+          <button class="partial-btn">Partial</button>
+          <button class="unpledge-btn">Unpledge All</button>
+        </div>
+      </div>
+
+      <div class="pledged-item">
+        <div class="stock-logo"></div>
+        <div class="stock-info">
+          <div class="stock-name">Infosys</div>
+          <div class="stock-ticker">INFY.NS</div>
+        </div>
+        <div class="pledged-value">₹52,000</div>
+        <div class="outstanding">₹41,600</div>
+        <div class="action-buttons">
+          <button class="partial-btn">Partial</button>
+          <button class="unpledge-btn">Unpledge All</button>
+        </div>
+      </div>
+
+      <div class="pledged-item">
+        <div class="stock-logo"></div>
+        <div class="stock-info">
+          <div class="stock-name">ITC</div>
+          <div class="stock-ticker">ITC.NS</div>
+        </div>
+        <div class="pledged-value">₹25,000</div>
+        <div class="outstanding">₹19,800</div>
+        <div class="action-buttons">
+          <button class="partial-btn">Partial</button>
+          <button class="unpledge-btn">Unpledge All</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="risk-note">
+      <strong>Unpledge Note:</strong> Once requested, securities will be released within T+1 day after repayment of outstanding margin + charges. Partial unpledge allowed only if margin cover remains above 120%.
+    </div>
+  </main>
+
+  <!-- Footer – Only 3 Icons -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.unpledge-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (confirm('Unpledge this security?\nOutstanding amount will be auto-deducted.')) {
+          alert('Unpledge request sent successfully!');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

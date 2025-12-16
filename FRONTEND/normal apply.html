@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply Normal – Zerodha Fintech IPO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .back-btn { 
+      font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s; 
+    }
+    .back-btn:hover { color:#00ffff; }
+
+    .page-title { 
+      font-size:1.5rem; font-weight:700; color:#00ffff; 
+    }
+
+    .header-right {
+      display:flex; align-items:center; gap:18px;
+    }
+    .vixai-logo {
+      font-size:1.7rem; font-weight:900; color:#00ffff;
+    }
+    .header-icons i {
+      font-size:1.5rem; color:#888; cursor:pointer; transition:0.4s;
+    }
+    .header-icons i:hover {
+      color:#00ffff; transform:scale(1.2);
+    }
+
+    main { flex:1; padding:90px 20px 140px; max-width:800px; margin:0 auto; width:100%; text-align:center; }
+
+    .ipo-card {
+      background:linear-gradient(135deg,#0a0a0a,#1a1a1a);
+      border:1px solid #222; border-radius:16px; padding:40px 28px; margin-bottom:40px;
+    }
+    .ipo-name { font-size:2.4rem; font-weight:900; margin:10px 0; color:#00ffff; }
+    .price-band { font-size:1.6rem; margin:20px 0; color:#aaa; }
+    .min-investment { font-size:2rem; font-weight:900; color:#00ff88; margin:20px 0; }
+
+    .broker-info {
+      background:#111; border-radius:16px; padding:40px 24px; margin:40px 0;
+      border:2px solid #00ff8833;
+    }
+    .broker-info i { font-size:4rem; color:#00ff88; margin-bottom:20px; }
+    .broker-info h3 { font-size:1.4rem; margin:16px 0; }
+    .broker-info p { color:#aaa; line-height:1.7; }
+
+    .final-btn {
+      width:100%; padding:24px; background:#00ff88; color:#000;
+      border:none; border-radius:16px; font-family:'Orbitron'; font-weight:900;
+      font-size:1.5rem; letter-spacing:0.12em; cursor:pointer;
+      transition:all 0.4s;
+    }
+    .final-btn:hover {
+      background:#00cc77; box-shadow:0 0 50px rgba(0,255,136,0.7); transform:scale(1.03);
+    }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:16px 0; backdrop-filter:blur(10px);
+    }
+    .nav { display:flex; justify-content:space-around; max-width:500px; margin:0 auto; }
+    .nav-item { text-align:center; color:#666; cursor:pointer; padding:10px 20px; border-radius:12px; transition:0.3s; }
+    .nav-item.active { color:#fff; background:#1a1a1a; }
+    .nav-item i { font-size:1.7rem; display:block; margin-bottom:6px; }
+    .nav-item span { font-size:0.78rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <!-- BACK BUTTON -->
+    <div class="back-btn" onclick="history.back()">Back</div>
+    
+    <!-- PAGE TITLE -->
+    <div class="page-title">Apply Normal</div>
+
+    <!-- VIXAI + BELL + SEARCH -->
+    <div class="header-right">
+      <div class="vixai-logo">VIXAI</div>
+      <div class="header-icons">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- IPO Card -->
+    <div class="ipo-card">
+      <h1 class="ipo-name">Zerodha Fintech Ltd</h1>
+      <div class="price-band">₹320 – ₹340 per share</div>
+      <div class="min-investment">Minimum Investment: ₹14,960</div>
+      <p style="margin-top:20px; color:#888;">(1 lot × 44 shares)</p>
+    </div>
+
+    <!-- Broker Info -->
+    <div class="broker-info">
+      <i class="fas fa-university"></i>
+      <h3>Standard ASBA Process</h3>
+      <p>You will be redirected to your broker’s portal</p>
+      <p>₹14,960 will be blocked in your bank account until allotment</p>
+      <p style="margin-top:16px; color:#00ff88; font-size:1.2rem;">
+        No extra charges • 100% safe • SEBI-regulated
+      </p>
+    </div>
+
+    <!-- One-Tap Apply Button -->
+    <button class="final-btn" onclick="applyNormal()">
+      Proceed to Broker ASBA Portal
+    </button>
+  </main>
+
+  <!-- Footer – Only 3 Icons -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item active"><i class="fas fa-chart-line"></i><span>Markets</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+  <script>
+    function applyNormal() {
+      if (confirm('Block ₹14,960 via ASBA?\nYou will be redirected to your broker.')) {
+        alert('Redirecting to broker ASBA portal...\nAmount blocked: ₹14,960');
+        // In real app → window.location.href = "https://your-broker.com/asba";
+      }
+    }
+  </script>
+</body>
+</html>

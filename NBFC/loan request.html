@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE NBFC | Loan Requests</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Phosphor Icons - Same as all pages -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    :root {
+      --mint-light: #E4F2EF;
+      --sage-medium: #7AA893;
+      --deep-teal: #244F48;
+      --gold: #D0B060;
+      --soft-white: #F9FAF8;
+      --light-grey: #D9E0DF;
+      --charcoal: #1F1F1F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--mint-light);
+      color: var(--charcoal);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* SAME SIDEBAR WITH ICONS - EXACTLY AS DASHBOARD & LOAN BOOK */
+    .sidebar {
+      width: 280px;
+      background: var(--deep-teal);
+      color: white;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      padding: 24px 0;
+      box-shadow: 4px 0 20px rgba(36,79,72,0.2);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    .sidebar .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+      text-align: center;
+      padding: 0 20px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 30px;
+    }
+    .nav-item {
+      padding: 16px 28px;
+      font-size: 15px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.1); }
+    .nav-item.active {
+      background: var(--gold);
+      color: white;
+      font-weight: 600;
+    }
+    .nav-item i { width: 24px; height: 24px; }
+
+    /* Main Content */
+    .main-content { margin-left: 280px; flex: 1; }
+    .header {
+      background: var(--deep-teal);
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      box-shadow: 0 4px 20px rgba(36,79,72,0.2);
+    }
+    .page-title {
+      padding: 32px 40px 0;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--deep-teal);
+    }
+    .container { padding: 20px 40px 40px; max-width: 1600px; margin: 0 auto; }
+
+    /* === EVERYTHING BELOW IS 100% UNCHANGED FROM YOUR ORIGINAL === */
+    .filters {
+      background: var(--soft-white);
+      padding: 16px 24px;
+      border-radius: 16px;
+      margin: 20px 0;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(36,79,72,0.06);
+      border: 1px solid var(--light-grey);
+    }
+    .filters select, .filters input {
+      padding: 10px 14px;
+      border: 1.5px solid var(--light-grey);
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .table-card {
+      background: var(--soft-white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--light-grey);
+      box-shadow: 0 8px 30px rgba(36,79,72,0.1);
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: var(--deep-teal);
+      color: white;
+      padding: 18px 16px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td { padding: 18px 16px; border-bottom: 1px solid var(--light-grey); }
+    tr:hover { background: #f8fbf9; }
+    tr.active-row { background: #edf8f5; }
+
+    .status-pending { color: #D97706; font-weight: 600; }
+    .status-approved { color: var(--sage-medium); font-weight: 600; }
+    .status-rejected { color: #C53030; font-weight: 600; }
+    .risk-a { color: var(--sage-medium); font-weight: 700; }
+    .risk-b { color: #D97706; font-weight: 700; }
+    .risk-c { color: #C53030; font-weight: 700; }
+
+    .btn-review {
+      background: linear-gradient(90deg, #D0B060, #C9A652);
+      color: white;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-review:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(208,176,96,0.4);
+    }
+
+    .accordion-panel {
+      display: none;
+      background: var(--soft-white);
+      border-top: 3px solid var(--sage-medium);
+      padding: 32px 40px;
+    }
+    .accordion-panel.active { display: block; animation: slideDown 0.4s ease-out; }
+    @keyframes slideDown { from { opacity: 0; height: 0; } to { opacity: 1; height: auto; } }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .panel-header h3 { color: var(--deep-teal); font-size: 24px; }
+    .btn-minimize {
+      background: var(--light-grey);
+      color: var(--charcoal);
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .info-box {
+      background: #f8fbf9;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--light-grey);
+    }
+    .info-box h4 { color: var(--deep-teal); margin-bottom: 12px; font-size: 16px; }
+    .proposed-terms {
+      grid-column: 1 / -1;
+      background: #fef9e6;
+      padding: 24px;
+      border-radius: 12px;
+      border: 1.5px dashed var(--gold);
+    }
+    .action-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-approve, .btn-reject, .btn-docs {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      min-width: 180px;
+    }
+    .btn-approve { background: var(--sage-medium); color: white; }
+    .btn-reject { background: #C53030; color: white; }
+    .btn-docs { background: var(--charcoal); color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- SAME SIDEBAR WITH ICONS - Loan Requests ACTIVE -->
+  <div class="sidebar">
+    <div class="logo">VIXEDGE NBFC</div>
+
+     <div class="nav-item  " onclick="window.location.href='dashboard.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-gauge"></i>
+      <span>Dashboard</span>
+    </div>
+   <div class="nav-item active" onclick="window.location.href='loan request.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-file-text"></i>
+      <span>Loan Requests</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='loan kitab.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-book-open"></i>
+      <span>Loan Book</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='rpymnt.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-arrow-circle-down"></i>
+      <span>Repayments</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='settlement n disbursement.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-arrows-clockwise"></i>
+      <span>Settlement</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='user.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-users"></i>
+      <span>Users</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT - 100% UNCHANGED -->
+  <div class="main-content">
+    <div class="header">
+      <div style="display:flex;align-items:center;gap:12px;color:white;">
+        <span>Welcome, Partner Admin</span>
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">PA</div>
+      </div>
+    </div>
+
+    <div class="page-title">Loan Requests</div>
+
+    <div class="container">
+      <div class="filters">
+        <select><option>All Loan Types</option><option>IPO Margin</option><option>Pledge</option><option>Credit Limit</option></select>
+        <select><option>All Status</option><option>Pending</option><option>Approved</option><option>Rejected</option></select>
+        <select><option>All Risk Tiers</option><option>A</option><option>B</option><option>C</option></select>
+        <input type="text" placeholder="Search by Name / PAN">
+      </div>
+
+      <div class="table-card">
+        <table id="loanTable">
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>PAN</th>
+              <th>Loan Type</th>
+              <th>Requested</th>
+              <th>Eligible Amount</th>
+              <th>Risk Tier</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Your original rows - unchanged -->
+            <tr data-user="ram">
+              <td>Nikhil</td>
+              <td>AAJCR5678K</td>
+              <td>IPO Margin</td>
+              <td>₹25000</td>
+              <td>₹20000</td>
+              <td class="risk-a">A</td>
+              <td class="status-pending">Pending</td>
+              <td><button class="btn-review" onclick="toggleRow(this)">Review</button></td>
+            </tr>
+            <tr class="expand-row">
+              <td colspan="8" style="padding:0;">
+                <div class="accordion-panel">
+                  <div class="panel-header">
+                    <h3>Loan Review – Nikhil (AAJCR5678K)</h3>
+                    <button class="btn-minimize" onclick="toggleRow(this.closest('tr').previousElementSibling.querySelector('.btn-review'))">Minimize</button>
+                  </div>
+                  <div class="review-grid">
+                    <div class="info-box"><h4>KYC Status</h4><p>PAN Verified<br>Aadhaar Verified<br>GST Verified<br>Shop Act Verified</p></div>
+                    <div class="info-box"><h4>Credit Score Summary</h4><p>CIBIL: 812<br>Experian: 798<br>Internal Score: 89/100</p></div>
+                    <div class="info-box"><h4>Past Repayment History</h4><p>12 loans taken<br>100% on-time repayment<br>No defaults</p></div>
+                    <div class="info-box"><h4>Bank Statements (Last 6 months)</h4><p>Avg Monthly Credits: ₹6000<br>Gold Sales Trend: Up 28%</p></div>
+                    <div class="proposed-terms">
+                      <h4>Proposed Terms</h4>
+                      <p><strong>Requested:</strong> ₹25000 (IPO Margin)<br>
+                         <strong>Eligible:</strong> ₹20000 @ 9.8% p.a.<br>
+                         <strong>Tenure:</strong> 90 days<br>
+                         <strong>LTV:</strong> 72% (Safe)<br>
+                         <strong>Processing Fee:</strong> 0.5%</p>
+                    </div>
+                  </div>
+                  <div class="action-buttons">
+                    <button class="btn-approve">Approve Loan</button>
+                    <button class="btn-reject">Reject</button>
+                    <button class="btn-docs">Need More Documents</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr data-user="shree">
+              <td>Sumit</td>
+              <td>ABCPQ4321M</td>
+              <td>Pledge</td>
+              <td>₹100000</td>
+              <td>₹75000</td>
+              <td class="risk-b">B</td>
+              <td class="status-pending">Pending</td>
+              <td><button class="btn-review" onclick="toggleRow(this)">Review</button></td>
+            </tr>
+            <tr class="expand-row">
+              <td colspan="8" style="padding:0;">
+                <div class="accordion-panel">
+                  <div class="panel-header">
+                    <h3>Loan Review – Sumit (ABCPQ4321M)</h3>
+                    <button class="btn-minimize" onclick="toggleRow(this.closest('tr').previousElementSibling.querySelector('.btn-review'))">Minimize</button>
+                  </div>
+                  <div class="review-grid">
+                    <div class="info-box"><h4>KYC Status</h4><p>All verified</p></div>
+                    <div class="info-box"><h4>Credit Score Summary</h4><p>CIBIL: 765<br>Internal: 78/100</p></div>
+                    <div class="info-box"><h4>Past Repayment History</h4><p>8 loans · 1 delayed</p></div>
+                    <div class="info-box"><h4>Bank Statements</h4><p>Avg Credits: ₹12.1 Cr</p></div>
+                    <div class="proposed-terms">
+                      <h4>Proposed Terms</h4>
+                      <p><strong>Requested:</strong> ₹100000 (Pledge)<br><strong>Eligible:</strong> ₹75000 @ 10.5% p.a.</p>
+                    </div>
+                  </div>
+                  <div class="action-buttons">
+                    <button class="btn-approve">Approve Loan</button>
+                    <button class="btn-reject">Reject</button>
+                    <button class="btn-docs">Need More Documents</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr data-user="kalyani">
+              <td>Meenakshi</td>
+              <td>XYZPL9988T</td>
+              <td>Credit Limit</td>
+              <td>₹20000</td>
+              <td>₹17000</td>
+              <td class="risk-a">A</td>
+              <td class="status-approved">Approved</td>
+              <td><button class="btn-review" onclick="toggleRow(this)">Review</button></td>
+            </tr>
+            <tr class="expand-row">
+              <td colspan="8" style="padding:0;">
+                <div class="accordion-panel">
+                  <div class="panel-header">
+                    <h3>Loan Review – Meenakshi (XYZPL9988T)</h3>
+                    <button class="btn-minimize" onclick="toggleRow(this.closest('tr').previousElementSibling.querySelector('.btn-review'))">Minimize</button>
+                  </div>
+                  <div class="review-grid">
+                    <div class="info-box"><h4>KYC Status</h4><p>Complete</p></div>
+                    <div class="info-box"><h4>Credit Score Summary</h4><p>CIBIL: 820</p></div>
+                    <div class="info-box"><h4>Past Repayment History</h4><p>15 loans · 100% on-time</p></div>
+                    <div class="info-box"><h4>Bank Statements</h4><p>Strong turnover</p></div>
+                    <div class="proposed-terms">
+                      <h4>Proposed Terms</h4>
+                      <p><strong>Requested:</strong> ₹20000 (Credit Limit)<br><strong>Eligible:</strong> ₹17000</p>
+                    </div>
+                  </div>
+                  <div class="action-buttons">
+                    <button class="btn-approve">Approve Loan</button>
+                    <button class="btn-reject">Reject</button>
+                    <button class="btn-docs">Need More Documents</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleRow(btn) {
+      const currentRow = btn.closest('tr');
+      const panelRow = currentRow.nextElementSibling;
+      const panel = panelRow.querySelector('.accordion-panel');
+      const isOpen = panel.classList.contains('active');
+
+      document.querySelectorAll('.accordion-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('tr[data-user]').forEach(r => r.classList.remove('active-row'));
+
+      if (!isOpen) {
+        panel.classList.add('active');
+        currentRow.classList.add('active-row');
+      }
+    }
+  </script>
+</body>
+</html>

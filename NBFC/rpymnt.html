@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE NBFC | Repayments</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Same Phosphor Icons as all other pages -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    :root {
+      --mint-light: #E4F2EF;
+      --sage-medium: #7AA893;
+      --deep-teal: #244F48;
+      --gold: #D0B060;
+      --soft-white: #F9FAF8;
+      --light-grey: #D9E0DF;
+      --charcoal: #1F1F1F;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--mint-light);
+      color: var(--charcoal);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* SAME SIDEBAR WITH ICONS - Repayments ACTIVE */
+    .sidebar {
+      width: 280px;
+      background: var(--deep-teal);
+      color: white;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      padding: 24px 0;
+      box-shadow: 4px 0 20px rgba(36,79,72,0.2);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    .sidebar .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+      text-align: center;
+      padding: 0 20px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 30px;
+    }
+    .nav-item {
+      padding: 16px 28px;
+      font-size: 15px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.1); }
+    .nav-item.active {
+      background: var(--gold);
+      color: white;
+      font-weight: 600;
+    }
+    .nav-item i { width: 24px; height: 24px; }
+
+    /* Main Content */
+    .main-content { margin-left: 280px; flex: 1; }
+    .header {
+      background: var(--deep-teal);
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      box-shadow: 0 4px 20px rgba(36,79,72,0.2);
+    }
+    .page-title {
+      padding: 32px 40px 8px;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--deep-teal);
+    }
+    .container { padding: 0 40px 60px; max-width: 1600px; margin: 0 auto; }
+
+    /* EVERYTHING BELOW IS 100% UNCHANGED FROM YOUR ORIGINAL */
+    .quick-filters {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .filter-btn {
+      background: var(--soft-white);
+      border: 1.5px solid var(--light-grey);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .filter-btn.active {
+      background: var(--deep-teal);
+      color: white;
+      border-color: var(--deep-teal);
+    }
+    .table-card {
+      background: var(--soft-white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--light-grey);
+      box-shadow: 0 8px 30px rgba(36,79,72,0.1);
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: var(--deep-teal);
+      color: white;
+      padding: 18px 16px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 16px;
+      border-bottom: 1px solid var(--light-grey);
+      font-size: 14.5px;
+    }
+    tr:hover { background: #f8fbf9; }
+
+    .status-success { color: var(--sage-medium); font-weight: 600; }
+    .status-warning { color: #D97706; font-weight: 600; }
+    .status-danger { color: #C53030; font-weight: 600; }
+    .bounce-yes { background: #ffe6e6; color: #C53030; font-weight: 600; padding: 4px 8px; border-radius: 6px; }
+    .bounce-no { color: var(--sage-medium); font-weight: 600; }
+
+    .btn-download {
+      background: linear-gradient(90deg, #D0B060, #C9A652);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+    .btn-download:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(208,176,96,0.4); }
+  </style>
+</head>
+<body>
+
+  <!-- SAME SIDEBAR WITH ICONS - Repayments ACTIVE -->
+  <div class="sidebar">
+    <div class="logo">VIXEDGE NBFC</div>
+
+     <div class="nav-item  " onclick="window.location.href='dashboard.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-gauge"></i>
+      <span>Dashboard</span>
+    </div>
+   <div class="nav-item" onclick="window.location.href='loan request.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-file-text"></i>
+      <span>Loan Requests</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='loan kitab.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-book-open"></i>
+      <span>Loan Book</span>
+    </div>
+    <div class="nav-item active" onclick="window.location.href='rpymnt.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-arrow-circle-down"></i>
+      <span>Repayments</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='settlement n disbursement.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-arrows-clockwise"></i>
+      <span>Settlement</span>
+    </div>
+    <div class="nav-item" onclick="window.location.href='user.html'" style="cursor: pointer;">
+      <i class="ph-bold ph-users"></i>
+      <span>Users</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT - 100% UNCHANGED -->
+  <div class="main-content">
+    <div class="header">
+      <div style="display:flex;align-items:center;gap:12px;color:white;">
+        <span>Welcome, Collections Team</span>
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">CT</div>
+      </div>
+    </div>
+
+    <div class="page-title">Repayments & EMI Tracker</div>
+
+    <div class="container">
+      <div class="quick-filters">
+        <button class="filter-btn active" onclick="filterTable('all')">All Repayments</button>
+        <button class="filter-btn" onclick="filterTable('today')">EMI Due Today (12)</button>
+        <button class="filter-btn" onclick="filterTable('week')">Due This Week (28)</button>
+        <button class="filter-btn" onclick="filterTable('bounced')">Bounced (4)</button>
+        <button class="filter-btn" onclick="filterTable('completed')">Completed Today (18)</button>
+      </div>
+
+      <div class="table-card">
+        <table id="repaymentTable">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Loan ID</th>
+              <th>Amount Paid</th>
+              <th>Interest Part</th>
+              <th>Principal Part</th>
+              <th>Next Due Date</th>
+              <th>Auto-Debit</th>
+              <th>Bounce</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-status="today">
+              <td>Rahul Sharma</td>
+              <td>LN100845</td>
+              <td>₹4,200</td>
+              <td>₹1,100</td>
+              <td>₹3,100</td>
+              <td>07 Jan 2026</td>
+              <td class="status-success">Enabled</td>
+              <td class="bounce-no">No</td>
+            </tr>
+            <tr data-status="bounced">
+              <td>Priya Mehta</td>
+              <td>LN100846</td>
+              <td>₹6,800</td>
+              <td>₹1,900</td>
+              <td>₹4,900</td>
+              <td>08 Dec 2025</td>
+              <td class="status-warning">Failed</td>
+              <td class="bounce-yes">Yes</td>
+            </tr>
+            <tr data-status="week">
+              <td>Akash Verma</td>
+              <td>LN100847</td>
+              <td>₹2,100</td>
+              <td>₹600</td>
+              <td>₹1,500</td>
+              <td>12 Dec 2025</td>
+              <td class="status-success">Enabled</td>
+              <td class="bounce-no">No</td>
+            </tr>
+            <tr data-status="completed">
+              <td>Sneha Kapoor</td>
+              <td>LN100848</td>
+              <td>₹7,100</td>
+              <td>₹2,200</td>
+              <td>₹4,900</td>
+              <td>02 Jan 2026</td>
+              <td class="status-success">Success</td>
+              <td class="bounce-no">No</td>
+            </tr>
+            <tr data-status="bounced">
+              <td>Vikram Singh</td>
+              <td>LN100849</td>
+              <td>₹5,200</td>
+              <td>₹1,400</td>
+              <td>₹3,800</td>
+              <td>18 Dec 2025</td>
+              <td class="status-danger">Disabled</td>
+              <td class="bounce-yes">Yes</td>
+            </tr>
+            <tr data-status="completed">
+              <td>Neha Gupta</td>
+              <td>LN100850</td>
+              <td>₹3,800</td>
+              <td>₹950</td>
+              <td>₹2,850</td>
+              <td>20 Jan 2026</td>
+              <td class="status-success">Enabled</td>
+              <td class="bounce-no">No</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="padding:24px;text-align:right;">
+          <button class="btn-download">Download Repayment Report (CSV)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function filterTable(type) {
+      const rows = document.querySelectorAll('#repaymentTable tbody tr');
+      const buttons = document.querySelectorAll('.filter-btn');
+
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      rows.forEach(row => {
+        const status = row.getAttribute('data-status');
+        if (type === 'all' || status === type) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIXAI – Your Smart Trading Assistant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000; color:#fff; font-family:'Orbitron',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+    header {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:16px 18px; background:#000; border-bottom:1px solid #1a1a1a;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .logo-title {
+      font-size:2rem; font-weight:900; color:#00ffff; letter-spacing:0.05em;
+    }
+    .header-right {
+      display:flex; align-items:center; gap:20px;
+    }
+    .header-right i {
+      font-size:1.7rem; color:#888; cursor:pointer; transition:0.4s;
+    }
+    .header-right i:hover {
+      color:#00ffff; transform:scale(1.3);
+    }
+
+    main { flex:1; padding:90px 20px 160px; overflow-y:auto; }
+
+    .mode-tabs {
+      display:flex; flex-wrap:wrap; gap:12px; margin:20px 0 30px; justify-content:center;
+    }
+    .mode-tab {
+      padding:14px 28px; background:#111; border:2px solid #333;
+      border-radius:50px; font-weight:700; cursor:pointer; transition:all 0.4s;
+    }
+    .mode-tab.active, .mode-tab:hover {
+      background:#00ffff; color:#000; border-color:#00ffff;
+      box-shadow:0 0 40px rgba(0,255,255,0.6);
+    }
+
+    .output-panel {
+      background:#0f0f0f; border:1px solid #00ffff22; border-radius:20px;
+      padding:32px; margin:0 10px 30px; min-height:400px;
+    }
+    .ai-response {
+      line-height:1.9; font-size:1.1rem;
+    }
+    .response-title {
+      font-size:1.9rem; color:#00ffff; margin-bottom:20px; font-weight:900;
+    }
+    .sentiment-bar {
+      height:14px; background:#222; border-radius:7px; overflow:hidden; margin:20px 0;
+    }
+    .sentiment-fill {
+      height:100%; width:82%; background:linear-gradient(90deg,#ff4466,#00ff88);
+    }
+
+    .quick-actions {
+      display:flex; flex-wrap:wrap; gap:14px; margin-top:30px;
+    }
+    .quick-btn {
+      padding:12px 28px; border-radius:50px; font-weight:900;
+      cursor:pointer; transition:all 0.4s; font-size:0.95rem;
+    }
+    .quick-btn:nth-child(1) { background:#00ff88; color:#000; }
+    .quick-btn:nth-child(2) { background:#ffdd00; color:#000; }
+    .quick-btn:nth-child(3) { background:#ff4466; color:#fff; }
+    .quick-btn:hover {
+      transform:scale(1.08); box-shadow:0 0 30px rgba(255,255,255,0.4);
+    }
+
+    .input-container {
+      position:fixed; bottom:80px; left:0; right:0;
+      padding:20px; background:rgba(0,0,0,0.95); border-top:1px solid #1a1a1a;
+      backdrop-filter:blur(20px); z-index:999;
+    }
+    .input-area {
+      background:#111; border:2px solid #00ffff33; border-radius:20px;
+      padding:20px; position:relative;
+    }
+    .input-box {
+      width:100%; min-height:100px; background:transparent; border:none;
+      color:#fff; font-family:'Orbitron'; font-size:1.2rem; resize:none; outline:none;
+    }
+    .input-actions {
+      display:flex; gap:12px; margin-top:16px; justify-content:flex-end;
+    }
+    .btn-upload, .btn-summarise {
+      padding:12px 28px; background:#00ffff; color:#000;
+      border:none; border-radius:50px; font-weight:900; cursor:pointer;
+      transition:0.4s;
+    }
+    .btn-upload:hover, .btn-summarise:hover {
+      background:#00ff88; transform:scale(1.05);
+    }
+
+    .suggestions {
+      margin:40px 10px;
+      text-align:center;
+    }
+    .suggestion-chips {
+      display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:16px;
+    }
+    .chip {
+      padding:12px 24px; background:#111; border:1px solid #333;
+      border-radius:50px; cursor:pointer; transition:0.4s;
+    }
+    }
+    .chip:hover {
+      border-color:#00ffff; color:#00ffff; box-shadow:0 0 20px rgba(0,255,255,0.3);
+    }
+
+    /* Query History Panel with Back Button */
+    .history-panel {
+      position:fixed; top:0; right:-400px; width:380px; height:100vh;
+      background:#000; border-left:1px solid #1a1a1a; padding:90px 20px 100px;
+      transition:right 0.5s; z-index:2000; overflow-y:auto;
+    }
+    .history-panel.active { right:0; }
+    .history-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 20px 20px; border-bottom:1px solid #333;
+      margin-bottom:20px;
+    }
+    .history-header h3 {
+      color:#00ffff; font-size:1.5rem;
+    }
+    .history-back {
+      font-size:1.8rem; color:#888; cursor:pointer; transition:0.3s;
+    }
+    .history-back:hover { color:#00ffff; }
+
+    footer {
+      position:fixed; bottom:0; width:100%; background:#000;
+      border-top:1px solid #1a1a1a; padding:12px 0; backdrop-filter:blur(10px); z-index:1000;
+    }
+    .nav {
+      display:flex; justify-content:space-around; max-width:500px; margin:0 auto;
+    }
+    .nav-item {
+      text-align:center; color:#666; cursor:pointer; padding:10px 16px;
+      border-radius:12px; transition:0.3s;
+    }
+    .nav-item.active {
+      color:#fff; background:#1a1a1a;
+    }
+    .nav-item i { font-size:1.5rem; display:block; margin-bottom:4px; }
+    .nav-item span { font-size:0.75rem; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-title">VIXEDGE</div>
+    <div class="header-right">
+      <i class="fas fa-history" onclick="document.getElementById('historyPanel').classList.toggle('active')"></i>
+      <i class="fas fa-microphone"></i>
+      <i class="fas fa-bell"></i>
+      <i class="fas fa-search"></i>
+    </div>
+  </header>
+
+  <main>
+    <div class="mode-tabs">
+      <div class="mode-tab active">General Q&A</div>
+      <div class="mode-tab">IPO Analysis</div>
+      <div class="mode-tab">Stock Analysis</div>
+      <div class="mode-tab">Mutual Fund</div>
+      <div class="mode-tab">Smallcase</div>
+      <div class="mode-tab">SGB/Bonds</div>
+      <div class="mode-tab">REIT/InvIT</div>
+      <div class="mode-tab">Reports Summary</div>
+    </div>
+
+    <div class="output-panel" id="outputPanel">
+      <div class="response-title">Hey! I'm VIXAI — your 24×7 market genius.</div>
+      <p style="color:#888; text-align:center; margin:40px 0; line-height:1.8;">
+        Ask me anything — IPOs, stocks, funds, reports, comparisons, strategies…<br>
+        I read RHPs, factsheets, and live data in seconds.
+      </p>
+      <div style="text-align:center; color:#00ffff; font-size:1.3rem; margin:30px 0;">
+        Try: “Summarise Zerodha IPO” • “Best REIT for income?” • “TCS vs Infosys”
+      </div>
+    </div>
+
+    <div class="suggestions">
+      <div style="color:#00ffff; font-weight:700; margin-bottom:16px;">Quick ideas</div>
+      <div class="suggestion-chips">
+        <div class="chip">Latest IPOs</div>
+        <div class="chip">High yield bonds</div>
+        <div class="chip">Top smallcases</div>
+        <div class="chip">Gold vs SGB</div>
+        <div class="chip">Today’s top gainers</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Input Area (Bottom — Grok Style) -->
+  <div class="input-container">
+    <div class="input-area">
+      <textarea class="input-box" placeholder="Ask VIXAI anything…" id="userInput"></textarea>
+      <div class="input-actions">
+        <button class="btn-upload">
+          Upload PDF/Image
+        </button>
+        <button class="btn-summarise">
+          Summarise
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Query History Panel with Back Button -->
+  <div class="history-panel" id="historyPanel">
+    <div class="history-header">
+      <h3>Recent Queries</h3>
+      <i class="fas fa-arrow-left history-back" onclick="document.getElementById('historyPanel').classList.remove('active')"></i>
+    </div>
+    <div style="padding:0 20px;">
+      <div class="history-item">
+        <div class="history-query">Summarise Zerodha Fintech RHP</div>
+        <div class="history-time">2 hours ago</div>
+      </div>
+      <div class="history-item">
+        <div class="history-query">Compare Mindspace vs Embassy REIT</div>
+        <div class="history-time">Yesterday</div>
+      </div>
+      <div class="history-item">
+        <div class="history-query">Best smallcase for aggressive growth</div>
+        <div class="history-time">3 days ago</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="nav">
+      <div class="nav-item" onclick="location.href='home.html'"><i class="fas fa-home"></i><span>Home</span></div>
+<div class="nav-item" onclick="window.location.href='market.html'" style="cursor: pointer;"><i class="fas fa-chart-line"></i><span>Markets</span></div>   
+      <div class="nav-item active"><i class="fas fa-robot"></i><span>VIXAI</span></div>
+      <div class="nav-item" onclick="location.href='profile.html'"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.btn-summarise').addEventListener('click', () => {
+      document.getElementById('outputPanel').innerHTML = `
+        <div class="response-title">Zerodha Fintech IPO – Quick Summary</div>
+        <ul style="line-height:2.2; font-size:1.1rem; color:#ddd;">
+          <li>Issue Size: ₹3,200 Cr fresh issue</li>
+          <li>Price Band: ₹320–340</li>
+          <li>FY24 Revenue: ₹8,214 Cr (+62% YoY)</li>
+          <li>FY24 Profit: ₹4,317 Cr (+108% YoY)</li>
+          <li>Zero debt • ₹2,800 Cr cash reserve</li>
+          <li>Promoters hold 100% pre-IPO</li>
+          <li>Valuation: ~42x FY24 earnings</li>
+        </ul>
+        <div style="margin:20px 0;"><strong>Risk Rating:</strong> Medium</div>
+        <div class="sentiment-bar"><div class="sentiment-fill"></div></div>
+        <div style="text-align:center; color:#00ff88; font-weight:900;">82% Positive Sentiment</div>
+
+        <div class="quick-actions">
+          <div class="quick-btn">Explain Simpler</div>
+          <div class="quick-btn">Deep Dive</div>
+          <div class="quick-btn">Compare with Groww</div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>

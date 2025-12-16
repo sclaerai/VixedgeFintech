@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIXEDGE • Escrow / Banking Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #171b21;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent: #00d4ff;
+      --border: #2d3748;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+    }
+    /* Sidebar */
+    #sidebar {
+      width: 70px;
+      background: var(--surface);
+      transition: width 0.35s ease;
+      overflow: hidden;
+      border-right: 1px solid var(--border);
+      z-index: 10;
+      flex-shrink: 0;
+    }
+    #sidebar:hover { width: 260px; }
+    #sidebar:hover .label { opacity:1; margin-left:12px; }
+    .menu { padding: 20px 0; }
+    .menu-item {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .menu-item:hover { background: rgba(0,212,255,0.1); color: var(--accent); }
+    .menu-item.active {
+      background: rgba(0,212,255,0.15);
+      color: var(--accent);
+      border-left: 4px solid var(--accent);
+    }
+    .menu-item i { font-size: 22px; width: 30px; text-align:center; }
+    .label { opacity: 0; transition: all 0.3s; font-weight: 500; white-space: nowrap; }
+
+    main {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+      position: relative;
+    }
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 70px;
+      right: 0;
+      height: 70px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--accent);
+      z-index: 9;
+    }
+    .content { margin-top: 90px; }
+    .header {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+
+    /* Balance Cards */
+    .balance-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .bal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      transition: transform 0.2s;
+    }
+    .bal-card:hover { transform: translateY(-4px); }
+    .bal-title { 
+      font-size: 13px; 
+      color: var(--text-muted); 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
+      margin-bottom: 12px; 
+    }
+    .bal-value { 
+      font-size: 36px; 
+      font-weight: 600; 
+    }
+    .bal-value.good { color: #86efac; }
+    .bal-value.warn { color: #fbbf24; }
+
+    /* Transactions Table */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .table th {
+      background: rgba(0,212,255,0.1);
+      text-align: left;
+      padding: 16px 20px;
+      font-weight: 500;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+    }
+    .table td {
+      padding: 18px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .table tr:hover { background: rgba(0,212,255,0.05); }
+
+    .amount-in  { color: #86efac; font-weight: 600; }
+    .amount-out { color: #fca5a5; font-weight: 600; }
+    .tag {
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .tag.auto   { background: #1e3a8a; color: #93c5fd; }
+    .tag.manual { background: #4338ca; color: #c4b5fd; }
+    .tag.recon  { background: #166534; color: #86efac; }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <aside id="sidebar">
+    <div class="menu">
+       <div class="menu-item  " onclick="window.location.href='dashboard.html'" style="cursor: pointer;"><i class="fas fa-home"></i><span class="label">Dashboard</span></div>
+      <div class="menu-item" onclick="window.location.href='usermgmt.html'" style="cursor: pointer;"><i class="fas fa-users"></i><span class="label">User Management</span></div>
+      <div class="menu-item" onclick="window.location.href='margin.html'" style="cursor: pointer;"><i class="fas fa-coins"></i><span class="label">Margin System</span></div>
+      <div class="menu-item" onclick="window.location.href='ipo opt.html'" style="cursor: pointer;"><i class="fas fa-chart-line"></i><span class="label">IPO Operations Panel</span></div>
+      <div class="menu-item" onclick="window.location.href='nbfc.html'" style="cursor: pointer;"><i class="fas fa-university"></i><span class="label">NBFC Integrations</span></div>
+      <div class="menu-item" onclick="window.location.href='broker.html'" style="cursor: pointer;"><i class="fas fa-exchange-alt"></i><span class="label">Broker Integrations Panel</span></div>
+      <div class="menu-item active" onclick="window.location.href='escrow.html'" style="cursor: pointer;"><i class="fas fa-wallet"></i><span class="label">Escrow / Banking Panel</span></div>
+      <div class="menu-item" onclick="window.location.href='fin n acc.html'" style="cursor: pointer;"><i class="fas fa-file-invoice-dollar"></i><span class="label">Finance & Accounting</span></div>
+      <div class="menu-item" onclick="window.location.href='risk.html'" style="cursor: pointer;"><i class="fas fa-shield-alt"></i><span class="label">Risk & Compliance</span></div>
+      <div class="menu-item" onclick="window.location.href='support.html'" style="cursor: pointer;"><i class="fas fa-ticket-alt"></i><span class="label">Support & Tickets</span></div>
+      <div class="menu-item" onclick="window.location.href='setting.html  '" style="cursor: pointer;"><i class="fas fa-cog"></i><span class="label">Settings</span></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="top-bar">VIXEDGE</div>
+    <div class="content">
+      <h1 class="header">Escrow / Banking Panel</h1>
+
+      <!-- Key Balances -->
+      <div class="balance-grid">
+        <div class="bal-card">
+          <div class="bal-title">Escrow Wallet Balance</div>
+          <div class="bal-value good">₹42.38 Cr</div>
+        </div>
+        <div class="bal-card">
+          <div class="bal-title">Nodal Account Balance</div>
+          <div class="bal-value good">₹18.92 Cr</div>
+        </div>
+        <div class="bal-card">
+          <div class="bal-title">Incoming Funds (Today)</div>
+          <div class="bal-value amount-in">+₹6.84 Cr</div>
+        </div>
+        <div class="bal-card">
+          <div class="bal-title">Outgoing Funds (Today)</div>
+          <div class="bal-value amount-out">-₹5.71 Cr</div>
+        </div>
+      </div>
+
+      <!-- Real-time Transactions & Reconciliations -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Balance After</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>14:42:11</td>
+            <td>Auto-Settlement</td>
+            <td>Swiggy IPO Refund Batch</td>
+            <td class="amount-out">-₹1.28 Cr</td>
+            <td>₹41.10 Cr</td>
+            <td><span class="tag auto">Auto</span></td>
+          </tr>
+          <tr>
+            <td>14:29:07</td>
+            <td>Incoming UPI</td>
+            <td>1247 user deposits</td>
+            <td class="amount-in">+₹2.41 Cr</td>
+            <td>₹42.38 Cr</td>
+            <td><span class="tag recon">Reconciled</span></td>
+          </tr>
+          <tr>
+            <td>13:55:22</td>
+            <td>NBFC Repayment</td>
+            <td>Loan #LON-98241</td>
+            <td class="amount-out">-₹42,000</td>
+            <td>₹39.97 Cr</td>
+            <td><span class="tag manual">Manual</span></td>
+          </tr>
+          <tr>
+            <td>12:10:05</td>
+            <td>Daily Reconciliation</td>
+            <td>HDFC Nodal A/c → Matched</td>
+            <td>—</td>
+            <td>₹18.92 Cr</td>
+            <td><span class="tag recon">Complete</span></td>
+          </tr>
+          <tr>
+            <td>09:00:00</td>
+            <td>Auto-Settlement Report</td>
+            <td>Tata Tech Allotment Refund</td>
+            <td class="amount-out">-₹3.12 Cr</td>
+            <td>₹39.56 Cr</td>
+            <td><span class="tag auto">Auto</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>
